@@ -1,0 +1,49 @@
+
+# Bomberman-DOM Project TODO
+
+## Game Mechanics
+- [ ] Implement multiplayer functionality (2-4 players).
+- [ ] Players start in different corners of the map.
+- [ ] Each player should have 3 lives.
+- [ ] Ensure only one player comes out victorious.
+
+## Map Design
+- [ ] Create a fixed map visible to all players.
+- [ ] Implement destructible blocks and indestructible walls.
+- [ ] Ensure random generation of destructible blocks.
+- [ ] Players must have space to avoid bomb explosions at start.
+- [ ] Power-ups appear randomly after block destruction.
+  - Bombs: Allow players to drop additional bombs.
+  - Flames: Increase explosion range.
+  - Speed: Increase movement speed.
+
+## Game Flow
+- [ ] Implement nickname input page for players.
+- [ ] Display waiting page with player counter.
+- [ ] Start game when either:
+  - [ ] Four players join.
+  - [ ] The 20-second timer runs out, then start a 10-second countdown.
+
+## Performance
+- [ ] Ensure the game runs at 60 FPS.
+- [ ] Use `requestAnimationFrame` for animations.
+- [ ] Measure performance regularly to detect frame drops.
+
+## Multiplayer Chat
+- [ ] Implement multiplayer chat using WebSockets.
+
+## Bonus Features (Optional)
+- [ ] Add Solo + Co-Op mode with AI players.
+- [ ] Add more power-ups:
+  - Bomb Push: Throw bombs after placing them.
+  - Bomb Pass: Pass through bombs.
+  - Block Pass: Pass through destructible blocks.
+  - Detonator: Manually detonate bombs.
+  - 1-Up: Grant extra life.
+- [ ] Implement team mode (2v2).
+- [ ] Add after-death interaction (ghost mode, player resurrection).
+
+## Learning Focus
+- [ ] Understand and apply `requestAnimationFrame`.
+- [ ] Learn about FPS and animation performance.
+- [ ] Explore event loop and webSockets for multiplayer synchronization.
