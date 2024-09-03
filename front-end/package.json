@@ -1,0 +1,19 @@
+{
+  "name": "mini-framework",
+  "version": "1.0.0",
+  "description": "This project uses **Node.js**, **Express**, and **Livereload** to create a server with automatic static file refresh.",
+  "main": "server.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bomdom": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
