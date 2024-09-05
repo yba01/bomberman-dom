@@ -8,15 +8,27 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+type Player struct {
+	Username string `json:"username"`
+}
+
+type Message struct {
+	MessageType string
+	TheMessage string
+	PlayerCount int
+	PlayerName string
+}
+
+
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 	CheckOrigin: func(r *http.Request) bool {
-        return true
-    },
+		return true
+	},
 }
-var players = make(map[*websocket.Conn]int)
-var playerCount = 0
+
+var players = make(map[string]*websocket.Conn)
 
 func WebSocketHandle(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
@@ -24,24 +36,40 @@ func WebSocketHandle(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	playerCount++
 
-	players[conn] = playerCount
+	var player Player
+	err = conn.ReadJSON(&player)
 
-	go HandleConn(conn)
+	if err != nil {
+		log.Println("Error reading player:", err)
+		return
+	}
+	players[player.Username] = conn
+
+	fmt.Println(players)
+	fmt.Println(len(players))
+	// broadcastPlayerCount()
+
+	go HandleConn(conn, player.Username)
 }
 
-func HandleConn(conn *websocket.Conn) {
-	fmt.Println(players,playerCount)
+func HandleConn(conn *websocket.Conn, playerName string) {
+	var mess Message
+	mess.PlayerCount = len(players)
+	mess.MessageType = "playerCount"
+	mess.PlayerName = playerName
+	broadcast(mess)
 	for {
-		messageType, p, err := conn.ReadMessage()
+		var userMess Message
+		err := conn.ReadJSON(&userMess)
 		if err != nil {
+			removePlayer(playerName)
 			log.Println(err)
 			return
 		}
-		if err := conn.WriteMessage(messageType, p); err != nil {
-			log.Println(err)
-			return
+		if userMess.MessageType == "chat" {
+			userMess.PlayerName = playerName
+			broadcast(userMess)
 		}
 	}
 }

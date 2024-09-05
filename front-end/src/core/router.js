@@ -14,8 +14,6 @@ class Router {
     registerRoute(path, handler) {
        this.routes[path] = handler
     }
-
-
     
     navigateTo(path) {
         history.pushState(null, '', path)

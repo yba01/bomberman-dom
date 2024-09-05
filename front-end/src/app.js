@@ -1,10 +1,15 @@
+
+import { EventSystem } from './core/events.js';
+import { StateManager, update } from './core/state.js';
 import { Router } from './core/router.js';
-import { WebsocketOn } from "./utils/websocket.js"
-//  Initiation des evenements
+import HomeComponent from './components/home.js';
+import RegisterPlayer from './utils/Player.js';
+import { chatHandle } from './utils/Chat.js';
 
+export const stateManager = new StateManager();
+export const eventSystem = new EventSystem();
+export const router = new Router();
 
-// initialisation du router
-const router = new Router
-
-WebsocketOn()
-
+router.registerRoute("/", update(HomeComponent()))
+router.navigateTo("/")
+eventSystem.on('click', '#submit-name', RegisterPlayer);

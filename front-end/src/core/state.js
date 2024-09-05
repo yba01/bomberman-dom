@@ -1,47 +1,38 @@
 import { Render } from '../utils/render.js';
-import TodoApp from '../components/TodoApp.js';
-
-
 
 // Fonction pour mettre à jour l'interface
 // * type: 'add' 'remove' 'setAt'
 
-export const update = () => {
+export const update = (newTree) => {
     const rootElement = document.querySelector('#root');
-    const newTree = TodoApp();
     Render(newTree, rootElement);
 }
 
 
 export function StateManager() {
-    let state = []; // L'état commence comme un tableau vide
+    let states = {}; // The state starts as an empty object
 
-    // Fonction pour mettre à jour l'état
-    function setState(newState) {
-        state.unshift(newState); // Fusionner le nouvel état avec l'état existant
+    // Function to update a specific state category
+    function setState(category, newState) {
+        if (!states[category]) {
+            states[category] = [];
+        }
+        states[category].unshift(newState);
     }
 
-    // Fonction pour récupérer l'état actuel
-    function getState() {
-        return state;
+    // Function to retrieve the current state of a specific category
+    function getState(category) {
+        return states[category] || [];
     }
 
     return { setState, getState };
 }
 
 
-// Fonction pour récupérer l'état des todos
-export const getTodos = () => {
-    return stateManager.getState() || [];
-}
 
-// Fonction pour mettre à jour l'état des todos
-export const addTodos = (newTodos) => {
-    stateManager.setState(newTodos);
-}
-
-// Créer une instance de StateManager
+// Create an instance of StateManager
 const stateManager = StateManager();
 
-// L'état global de l'application
-export let todos = stateManager.getState();
+// Export functions to interact with the player state
+export const addPlayer = (newPlayer) => stateManager.setState('players', newPlayer);
+export const getPlayers = () => stateManager.getState('players');
