@@ -2,12 +2,13 @@ import { eventSystem, router, stateManager } from "../app.js";
 import WaitingRoomComponent from "../components/WaitingRoom.js";
 import { update } from "../core/state.js";
 import { chatDisplay, chatHandle } from "./Chat.js";
-export let countdownTimer;
+import { renderGameMap } from "./MapDraw.js";
+export let countdownTimer, gameStarted = false, socket
 
 const RegisterPlayer = () => {
     const username = document.getElementById('username').value;
-    if (username) {
-        const socket = new WebSocket('ws://localhost:8081/ws');
+    if (username.split(' ').join('') != '' && username.length < 7) {
+        socket = new WebSocket('ws://localhost:8081/ws');
 
         socket.onopen = () => {
             socket.send(JSON.stringify({ username }));
@@ -18,15 +19,16 @@ const RegisterPlayer = () => {
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            console.log(event.data);
             
+            console.log(event.data);
+
             if (data.MessageType == "playerCount") {
                 document.getElementById('waitingMessage').textContent = `Waiting for other players to join... (${data.PlayerCount}/4)`;
-
-                if (data.PlayerCount === 4) {
+                if (data.PlayerCount === 4 && !gameStarted) {
                     clearTimeout(countdownTimer); // Stop the existing timer
+                    gameStarted = true
                     startGameCountdown(10); // Start the final 10 seconds countdown
-                } else if (data.PlayerCount >= 2 && data.PlayerCount < 4) {
+                } else if ((data.PlayerCount >= 2 && data.PlayerCount < 4) && !gameStarted) {
                     // Start the 20 seconds countdown, or skip to 10 seconds if 4 players join
                     clearTimeout(countdownTimer);
                     startGameCountdown(20);
@@ -41,24 +43,39 @@ const RegisterPlayer = () => {
             }
 
         };
+
+        socket.onerror = (error) => {
+            alert('Error: Unable to join the game. It may have already started.');
+        };
     } else {
-        alert('Please enter a name!');
+        alert('Please enter a valid name! valid len(<7)');
     }
 }
-
 function startGameCountdown(seconds) {
     const timerElement = document.getElementById('WRtimer');
-    timerElement.textContent = `Game starts in ${seconds} seconds`;
+    let WaitMessage = 'Waiting...'
+    if (seconds == 10) {
+        WaitMessage = 'Game starts in'
+    }
+    timerElement.textContent = `${WaitMessage} ${seconds} seconds`;
 
     countdownTimer = setInterval(() => {
         seconds--;
-        timerElement.textContent = `Game starts in ${seconds} seconds`;
+        timerElement.textContent = `${WaitMessage} ${seconds} seconds`;
 
         if (seconds <= 0) {
             clearInterval(countdownTimer);
-            router.navigateTo('/game'); // Start the game
+            if (!gameStarted) {
+                startGameCountdown(10)
+                gameStarted = true
+            } else {
+                renderGameMap()
+            }
+            // router.navigateTo('/game'); // Start the game
         }
     }, 1000);
 }
+
+
 
 export default RegisterPlayer;

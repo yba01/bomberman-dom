@@ -19,6 +19,8 @@ type Message struct {
 	PlayerName string
 }
 
+var gameStarted = false
+
 
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
@@ -31,6 +33,12 @@ var upgrader = websocket.Upgrader{
 var players = make(map[string]*websocket.Conn)
 
 func WebSocketHandle(w http.ResponseWriter, r *http.Request) {
+
+	if gameStarted {
+		http.Error(w, "Game has already started. No new players can join.", http.StatusForbidden)
+		return
+	}
+
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
@@ -70,6 +78,10 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 		if userMess.MessageType == "chat" {
 			userMess.PlayerName = playerName
 			broadcast(userMess)
+		}
+		if userMess.MessageType == "startGame" {
+			fmt.Println("game Started")
+			gameStarted = true
 		}
 	}
 }

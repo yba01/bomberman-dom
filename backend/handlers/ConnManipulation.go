@@ -20,6 +20,7 @@ func removePlayer(player string) {
 	fmt.Println("removed:", player)
 	var mess Message
 	delete(players, player)
+	mess.MessageType = "playerCount"
 	mess.PlayerCount = len(players)
 	broadcast(mess)
 }

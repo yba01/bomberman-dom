@@ -4,7 +4,6 @@ import { StateManager, update } from './core/state.js';
 import { Router } from './core/router.js';
 import HomeComponent from './components/home.js';
 import RegisterPlayer from './utils/Player.js';
-import { chatHandle } from './utils/Chat.js';
 
 export const stateManager = new StateManager();
 export const eventSystem = new EventSystem();
