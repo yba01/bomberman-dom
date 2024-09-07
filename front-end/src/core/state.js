@@ -3,8 +3,7 @@ import { Render } from '../utils/render.js';
 // Fonction pour mettre à jour l'interface
 // * type: 'add' 'remove' 'setAt'
 
-export const update = (newTree) => {
-    const rootElement = document.querySelector('#root');
+export const update = (newTree,rootElement) => {
     Render(newTree, rootElement);
 }
 

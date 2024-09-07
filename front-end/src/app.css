@@ -1,13 +1,115 @@
-.block {
-  background-color: lightgray;
+/* From Uiverse.io by anniekoop */
+body{
+  min-width: 1000px;
+  background-color: black;
+  background-size: cover;
+  border-radius: 40%;
+  color: white;
 }
 
-.block-row {
-  margin: 0;
+.break::before {
+  content: url(./assets/tile_1.png);
+  background-size: cover;
+  font-size: 1.5rem;
+  
 }
 
-.game-map {
-  margin: auto;
-  padding: 10px;
-  border: 2px solid black;
+
+.game-map{  
+  /* background-image: url(./assets/gras.jpg); */
+  position: absolute;
+  width: 570px;
+  left: 25%;
+  top: 150px;
+  height: 390px;
+  z-index: -1;
+  
 }
+
+.unbreak{
+  background-image: url(./assets/tile_0.png);
+}
+
+.game-map .tile {
+  width: 30px;
+  height: 30px;
+  float: left;
+  background-size: cover;
+}
+
+.input {
+    font-family: "SF Pro";
+    width: 300px;
+    padding: 0.875rem;
+    font-size: 1rem;
+    border: 1.5px solid #000;
+    border-radius: 0.5rem;
+    box-shadow: 2.5px 3px 0 #000;
+    outline: none;
+    transition: ease 0.25s;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -160px;
+}
+
+.input:focus {
+    box-shadow: 5.5px 7px 0 black;
+}
+
+/* From Uiverse.io by JaydipPrajapati1910 */ 
+.button {
+    top: 50%;
+    left: 50%;
+    margin-top: 10px;
+    margin-left: 30px;
+    width: 140px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 0px 15px;
+    background-color: red;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    position: absolute;
+    cursor: pointer;
+    font-weight: 900;
+    transition-duration: .2s;
+  }
+  
+  .game path {
+    color: white;
+  }
+  
+  .button .arrow {
+    position: absolute;
+    right: 0;
+    padding: 0px 5px;
+    width: 30px;
+    height: 100%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .button:hover,
+  .button:focus {
+    background-color: black;
+    transition-duration: .2s;
+  }
+  
+  .button:hover .arrow {
+    animation: slide-right .6s ease-out both;
+  }
+  /* arrow animation */
+  
+  
+  .button:active {
+    transform: translate(1px , 1px);
+    transition-duration: .2s;
+  }

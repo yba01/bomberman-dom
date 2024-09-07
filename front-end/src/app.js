@@ -9,6 +9,6 @@ export const stateManager = new StateManager();
 export const eventSystem = new EventSystem();
 export const router = new Router();
 
-router.registerRoute("/", update(HomeComponent()))
+router.registerRoute("/", update(HomeComponent(), document.querySelector('.chatRoom')))
 router.navigateTo("/")
 eventSystem.on('click', '#submit-name', RegisterPlayer);

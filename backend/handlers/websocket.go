@@ -17,10 +17,12 @@ type Message struct {
 	TheMessage string
 	PlayerCount int
 	PlayerName string
+	DataMap [][]int
 }
 
 var gameStarted = false
 
+var InitMap = GenerateMap(13,19)
 
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
@@ -34,10 +36,10 @@ var players = make(map[string]*websocket.Conn)
 
 func WebSocketHandle(w http.ResponseWriter, r *http.Request) {
 
-	if gameStarted {
-		http.Error(w, "Game has already started. No new players can join.", http.StatusForbidden)
-		return
-	}
+	// if gameStarted {
+	// 	http.Error(w, "Game has already started. No new players can join.", http.StatusForbidden)
+	// 	return
+	// }
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -62,6 +64,7 @@ func WebSocketHandle(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleConn(conn *websocket.Conn, playerName string) {
+	DrawMap(playerName,InitMap,players)
 	var mess Message
 	mess.PlayerCount = len(players)
 	mess.MessageType = "playerCount"

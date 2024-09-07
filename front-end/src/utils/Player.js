@@ -2,25 +2,31 @@ import { eventSystem, router, stateManager } from "../app.js";
 import WaitingRoomComponent from "../components/WaitingRoom.js";
 import { update } from "../core/state.js";
 import { chatDisplay, chatHandle } from "./Chat.js";
-import { renderGameMap } from "./MapDraw.js";
+import { GameMapComponent } from "../components/map.js";
+// import { renderGameMap } from "./MapDraw.js";
 export let countdownTimer, gameStarted = false, socket
 
 const RegisterPlayer = () => {
     const username = document.getElementById('username').value;
     if (username.split(' ').join('') != '' && username.length < 7) {
-        socket = new WebSocket('ws://localhost:8081/ws');
+        console.log(window.location.hostname);
+
+        socket = new WebSocket(`ws://${window.location.hostname + ":8081"}/ws`);
 
         socket.onopen = () => {
             socket.send(JSON.stringify({ username }));
             stateManager.setState('socket', { username, socket });
-            update(WaitingRoomComponent())
-            eventSystem.on('click', '#sendMessage', ()=> {chatHandle(socket)})
+            update(WaitingRoomComponent(), document.querySelector('.chatRoom'))
+            eventSystem.on('click', '#sendMessage', () => { chatHandle(socket) })
         };
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            
+
             console.log(event.data);
+            if (data.MessageType == "drawmap") {
+                update(GameMapComponent(data.DataMap), document.querySelector(".game-map"))
+            }
 
             if (data.MessageType == "playerCount") {
                 document.getElementById('waitingMessage').textContent = `Waiting for other players to join... (${data.PlayerCount}/4)`;
@@ -69,7 +75,8 @@ function startGameCountdown(seconds) {
                 startGameCountdown(10)
                 gameStarted = true
             } else {
-                renderGameMap()
+                document.querySelector(".chatRoom").style.display = "none"
+                document.querySelector(".game-map").style.display = "block"
             }
             // router.navigateTo('/game'); // Start the game
         }
