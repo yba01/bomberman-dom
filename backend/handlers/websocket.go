@@ -9,14 +9,17 @@ import (
 )
 
 type Player struct {
-	Username string `json:"username"`
+	MessageType string
+	Username string
+	Height string
+	Width string
 }
 
 type Message struct {
 	MessageType string
 	TheMessage string
 	PlayerCount int
-	PlayerName string
+	Player Player
 	DataMap [][]int
 }
 
@@ -36,10 +39,10 @@ var players = make(map[string]*websocket.Conn)
 
 func WebSocketHandle(w http.ResponseWriter, r *http.Request) {
 
-	// if gameStarted {
-	// 	http.Error(w, "Game has already started. No new players can join.", http.StatusForbidden)
-	// 	return
-	// }
+	if gameStarted {
+		http.Error(w, "Game has already started. No new players can join.", http.StatusForbidden)
+		return
+	}
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -68,7 +71,8 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 	var mess Message
 	mess.PlayerCount = len(players)
 	mess.MessageType = "playerCount"
-	mess.PlayerName = playerName
+	mess.Player.Username = playerName
+	mess = PlayerMovementsBroadCast(mess)
 	broadcast(mess)
 	for {
 		var userMess Message
@@ -79,12 +83,16 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 			return
 		}
 		if userMess.MessageType == "chat" {
-			userMess.PlayerName = playerName
+			userMess.Player.Username = playerName
 			broadcast(userMess)
 		}
-		if userMess.MessageType == "startGame" {
+		if userMess.MessageType == "gameStarted" {
 			fmt.Println("game Started")
 			gameStarted = true
+		}
+		if userMess.MessageType == "playerMovement" {
+			fmt.Println("player Moved")
+			broadcast(PlayerMovementsBroadCast(userMess))
 		}
 	}
 }

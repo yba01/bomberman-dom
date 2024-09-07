@@ -1,4 +1,8 @@
 import { createElement } from "../core/dom.js";
+export let player1 = createElement('div', {id:'player1'}),
+    player2 = createElement('div', {id:'player2'}),
+    player3 = createElement('div', {id:'player3'}),
+    player4 = createElement('div', {id:'player4'})
 
 export function GameMapComponent(dataMap) {
    
@@ -20,5 +24,6 @@ export function GameMapComponent(dataMap) {
         })
     });
 
-    return  createElement('div',{},...tileDivs);
+
+    return  createElement('div',{id:"theMap", style:"width:100%; height:100%"},...tileDivs, player1, player2, player3, player4);
 }

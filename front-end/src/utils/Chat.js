@@ -13,7 +13,6 @@ export function chatHandle(socket) {
         MessageType: "chat",
         TheMessage: messageContent,
         PlayerCount: 0,
-        PlayerName: ""
     }
     socket.send(JSON.stringify(messageStruct))
     message.value = ''
@@ -21,5 +20,5 @@ export function chatHandle(socket) {
 
 export function chatDisplay(message) {
     const broadCast = document.getElementById('BroadcastChat')
-    broadCast.append(createElement('p', {}, message.PlayerName+':'+message.TheMessage).render())
+    broadCast.append(createElement('p', {}, message.Player.Username+':'+message.TheMessage).render())
 }
