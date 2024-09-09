@@ -7,15 +7,14 @@ body{
   color: white;
 }
 
-.break::before {
+.break {
   content: url(./assets/tile_1.png);
   background-size: cover;
-  font-size: 1.5rem;
 }
 
 
 .game-map{  
-  /* background-image: url(./assets/gras.jpg); */
+  background-image: url(./assets/map.png);
   position: absolute;
   width: 570px;
   left: 25%;
@@ -25,9 +24,9 @@ body{
   
 }
 
-.unbreak{
+/* .unbreak{
   background-image: url(./assets/tile_0.png);
-}
+} */
 
 .game-map .tile {
   width: 30px;
