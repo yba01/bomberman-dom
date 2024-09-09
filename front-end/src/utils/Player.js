@@ -5,7 +5,7 @@ import { chatDisplay, chatHandle } from "./Chat.js";
 import { GameMapComponent } from "../components/map.js";
 import { sendMessage } from "./messages.js";
 import setGame from "./gameSet.js";
-import { displayMovement } from "./Mouvements.js";
+import { displayMovement} from "./Mouvements.js";
 // import { renderGameMap } from "./MapDraw.js";
 export let countdownTimer, gameStarted = false, socket, username, ActualUser, counter = 1
 
@@ -25,16 +25,46 @@ const RegisterPlayer = () => {
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            if (counter =1) {
-                ActualUser = data
-                counter++
-            }
             console.log(event.data);
             if (data.MessageType == "drawmap") {
                 update(GameMapComponent(data.DataMap), document.querySelector(".game-map"))
             }
-
+            
             if (data.MessageType == "playerCount") {
+                if (counter ==1) {
+                    ActualUser = data
+                    console.log(data);
+                    
+                    switch (ActualUser.Player.InGameName) {
+                        case 'player1':
+                            stateManager.setState('playerPosition', {
+                                heightPosition: 30,  // Initial side position
+                                sidePosition: 30 // Initial height position
+                            });
+                            break;
+                        case 'player2':
+                            stateManager.setState('playerPosition', {
+                                heightPosition: 30,  // Initial side position
+                                sidePosition: 510 // Initial height position
+                            });
+                            break;
+                        case 'player3':
+                            stateManager.setState('playerPosition', {
+                                heightPosition: 330,  // Initial side position
+                                sidePosition: 30 // Initial height position
+                            });
+                            break;
+                        case 'player4':
+                            stateManager.setState('playerPosition', {
+                                heightPosition: 330,  // Initial side position
+                                sidePosition: 510 // Initial height position
+                            });
+                            break;
+                        default:
+                            break
+                    }
+                    counter++
+                }
                 document.getElementById('waitingMessage').textContent = `Waiting for other players to join... (${data.PlayerCount}/4)`;
                 if (data.PlayerCount === 4 && !gameStarted) {
                     clearTimeout(countdownTimer); // Stop the existing timer

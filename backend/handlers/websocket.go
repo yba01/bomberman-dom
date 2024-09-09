@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/websocket"
 )
@@ -11,6 +12,7 @@ import (
 type Player struct {
 	MessageType string
 	Username string
+	InGameName string
 	Height string
 	Width string
 }
@@ -72,7 +74,7 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 	mess.PlayerCount = len(players)
 	mess.MessageType = "playerCount"
 	mess.Player.Username = playerName
-	mess = PlayerMovementsBroadCast(mess)
+	mess.Player.InGameName = "player"+strconv.Itoa(len(players))
 	broadcast(mess)
 	for {
 		var userMess Message
@@ -92,7 +94,8 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 		}
 		if userMess.MessageType == "playerMovement" {
 			fmt.Println("player Moved")
-			broadcast(PlayerMovementsBroadCast(userMess))
+			userMess.Player.InGameName = mess.Player.InGameName
+			broadcast(userMess)
 		}
 	}
 }

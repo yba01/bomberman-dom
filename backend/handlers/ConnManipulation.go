@@ -3,7 +3,6 @@ package handlers
 import (
 	"fmt"
 	"log"
-	"strconv"
 )
 
 func broadcast(mess Message) {
@@ -26,16 +25,16 @@ func removePlayer(player string) {
 	broadcast(mess)
 }
 
-func PlayerMovementsBroadCast(mess Message) Message {
-	count := 1
-	for player := range players {
-		if player == mess.Player.Username {
-			ncount := strconv.Itoa(count)
-			mess.Player.Username = "player"+ncount
-			count=1
-			return mess
-		}
-		count++
-	}
-	return mess
-}
+// func PlayerMovementsBroadCast(mess Message) Message {
+// 	count := 1
+// 	for player := range players {
+// 		if player == mess.Player.Username {
+// 			ncount := strconv.Itoa(count)
+// 			mess.Player.Username = "player"+ncount
+// 			count=1
+// 			return mess
+// 		}
+// 		count++
+// 	}
+// 	return mess
+// }

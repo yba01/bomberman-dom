@@ -1,70 +1,57 @@
+import { stateManager } from "../app.js"
 import { sendMessage } from "./messages.js"
-import { ActualUser, socket, username } from "./Player.js"
-
-export let PlayerSidePosition = 30, PlayerHeightPosition = 30
-
+import { socket, username } from "./Player.js"
 
 let [Y, X] = [1, 2]
 export {X , Y}
 export function movePlayer(direction) {
-    switch (ActualUser.Player.Username) {
-        case 'player1':
-            PlayerHeightPosition=30
-            PlayerSidePosition=30
-        case 'player2':
-            PlayerHeightPosition=30
-            PlayerSidePosition=510
-        case 'player3':
-            PlayerHeightPosition=330
-            PlayerSidePosition=30
-        case 'player4':
-            PlayerHeightPosition=330
-            PlayerSidePosition=510
+    const currentPositions = stateManager.getState('playerPosition')[0] || {
+        sidePosition: 30,
+        heightPosition: 30
+    };
+    let newSidePosition = currentPositions.sidePosition;
+    let newHeightPosition = currentPositions.heightPosition;
+        // Modify position based on direction
+    switch (direction.key) {
+        case 'ArrowLeft':
+            if (newSidePosition > 30) {
+                newSidePosition -= 30;
+            }
+            break;
+        case 'ArrowRight':
+            if (newSidePosition < 510) {
+                newSidePosition += 30;
+            }
+            break;
+        case 'ArrowUp':
+            if (newHeightPosition > 30) {
+                newHeightPosition -= 30;
+            }
+            break;
+        case 'ArrowDown':
+            if (newHeightPosition < 330) {
+                newHeightPosition += 30;
+            }
+            break;
         default:
-            break
+            break;
     }
-        switch (direction.key) {
-            case 'ArrowLeft':
-                if (PlayerSidePosition > 30) {
-                    PlayerSidePosition -= 30
-                    // player.style.transform = `translate(${PlayerSidePosition}px, ${PlayerHeightPosition}px)`
-                    Y = PlayerHeightPosition / 30, X = (PlayerSidePosition + 30) / 30;
-                }
-                break
-                case 'ArrowRight':
-                    if (PlayerSidePosition < 560) {
-                        PlayerSidePosition += 30
-                    // player.style.transform = `translate(${PlayerSidePosition}px, ${PlayerHeightPosition}px)`
-                    Y = PlayerHeightPosition / 30, X = (PlayerSidePosition + 30) / 30;
-                }
-                break
-                case 'ArrowUp':
-                    if (PlayerHeightPosition > 30) {
-                        PlayerHeightPosition -= 30
-                        // player.style.transform = `translate(${PlayerSidePosition}px, ${PlayerHeightPosition}px)`
-                        Y = PlayerHeightPosition / 30, X = (PlayerSidePosition + 30) / 30;
-                    }
-                    break;
-                    case 'ArrowDown':
-                        if (PlayerHeightPosition < 560) {
-                            PlayerHeightPosition += 30
-                    Y = PlayerHeightPosition / 30, X = (PlayerSidePosition + 30) / 30;
-                }
-                break;
-                default:
-                    break;
-                }
-                let messageStruct = {
-                    MessageType: "playerMovement",
-                    TheMessage: ``,
-                    PlayerCount: 0,
-                    Player: {
-                        Username: username,
-                        Height: `${PlayerHeightPosition}`,
-                        Width: `${PlayerSidePosition}`
-                    }
-                }
-                sendMessage(socket, messageStruct)
+    stateManager.setState('playerPosition', {
+        sidePosition: newSidePosition,
+        heightPosition: newHeightPosition
+    });
+    let messageStruct = {
+        MessageType: "playerMovement",
+        TheMessage: ``,
+        PlayerCount: 0,
+        Player: {
+            Username: username,
+            Height: `${newHeightPosition}`,
+            Width: `${newSidePosition}`
+        }
+    }
+    console.log('messageStruct', messageStruct)
+    sendMessage(socket, messageStruct)
 }
 // export function verifyNextBlock(posY, posX) {
 //     posY = posY / 30
@@ -77,7 +64,7 @@ export function movePlayer(direction) {
 // }
 
 export function displayMovement(mess) {
-    let player = document.getElementById(mess.Player.Username)
+    let player = document.getElementById(mess.Player.InGameName)
 
     player.style.transform = `translate(${mess.Player.Width}px, ${mess.Player.Height}px)`
 }
