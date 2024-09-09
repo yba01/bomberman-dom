@@ -1,6 +1,6 @@
 import { stateManager } from "../app.js"
 import { sendMessage } from "./messages.js"
-import { socket, username } from "./Player.js"
+import { mapLayout, socket, username } from "./Player.js"
 
 let [Y, X] = [1, 2]
 export {X , Y}
@@ -14,23 +14,27 @@ export function movePlayer(direction) {
         // Modify position based on direction
     switch (direction.key) {
         case 'ArrowLeft':
-            if (newSidePosition > 30) {
+            if (newSidePosition > 30 && verifyNextBlock(newHeightPosition, newSidePosition - 30)) {
                 newSidePosition -= 30;
+                Y = newHeightPosition / 30, X = (newSidePosition + 30) / 30;
             }
             break;
         case 'ArrowRight':
-            if (newSidePosition < 510) {
+            if (newSidePosition < 510 && verifyNextBlock(newHeightPosition, newSidePosition + 30)) {
                 newSidePosition += 30;
+                Y = newHeightPosition / 30, X = (newSidePosition + 30) / 30;
             }
             break;
         case 'ArrowUp':
-            if (newHeightPosition > 30) {
+            if (newHeightPosition > 30 && verifyNextBlock(newHeightPosition-30, newSidePosition)) {
                 newHeightPosition -= 30;
+                Y = newHeightPosition / 30, X = (newSidePosition + 30) / 30;
             }
             break;
         case 'ArrowDown':
-            if (newHeightPosition < 330) {
+            if (newHeightPosition < 330 && verifyNextBlock(newHeightPosition+30, newSidePosition)) {
                 newHeightPosition += 30;
+                Y = newHeightPosition / 30, X = (newSidePosition + 30) / 30;
             }
             break;
         default:
@@ -53,15 +57,16 @@ export function movePlayer(direction) {
     console.log('messageStruct', messageStruct)
     sendMessage(socket, messageStruct)
 }
-// export function verifyNextBlock(posY, posX) {
-//     posY = posY / 30
-//     posX = posX / 30
-//     if (mapLayout[posY][posX] == 0) {
-//         return true
-//     } else {
-//         return false
-//     }
-// }
+
+export function verifyNextBlock(posY, posX) {
+    posY = posY / 30
+    posX = posX / 30
+    if (mapLayout[posY][posX] == 0) {
+        return true
+    } else {
+        return false
+    }
+}
 
 export function displayMovement(mess) {
     let player = document.getElementById(mess.Player.InGameName)

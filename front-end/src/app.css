@@ -142,7 +142,7 @@ body{
   background-size: cover;
   transform: translate(30px, 30px);
   transition: 0.3s;
-  
+  display: none;
 }
 
 #player2 {
@@ -153,7 +153,7 @@ body{
   background-size: cover;
   transform: translate(510px, 30px);
   transition: 0.3s;
-  
+  display: none;
 }
 
 #player3 {
@@ -164,7 +164,7 @@ body{
   background-size: cover;
   transform: translate(30px, 330px);
   transition: 0.3s;
-  
+  display: none;
 }
 
 #player4 {
@@ -175,5 +175,5 @@ body{
   background-size: cover;
   transform: translate(510px, 330px);
   transition: 0.3s;
-  
+  display: none;
 }

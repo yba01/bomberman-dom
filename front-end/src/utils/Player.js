@@ -7,7 +7,7 @@ import { sendMessage } from "./messages.js";
 import setGame from "./gameSet.js";
 import { displayMovement} from "./Mouvements.js";
 // import { renderGameMap } from "./MapDraw.js";
-export let countdownTimer, gameStarted = false, socket, username, ActualUser, counter = 1
+export let countdownTimer, gameStarted = false, socket, username, ActualUser, counter = 1, mapLayout
 
 const RegisterPlayer = () => {
     username = document.getElementById('username').value;
@@ -28,21 +28,22 @@ const RegisterPlayer = () => {
             console.log(event.data);
             if (data.MessageType == "drawmap") {
                 update(GameMapComponent(data.DataMap), document.querySelector(".game-map"))
+                mapLayout = data.DataMap
             }
             
             if (data.MessageType == "playerCount") {
                 if (counter ==1) {
                     ActualUser = data
                     console.log(data);
-                    
                     switch (ActualUser.Player.InGameName) {
                         case 'player1':
                             stateManager.setState('playerPosition', {
                                 heightPosition: 30,  // Initial side position
                                 sidePosition: 30 // Initial height position
                             });
+                            document.getElementById('player1').style.display = 'flex'
                             break;
-                        case 'player2':
+                            case 'player2':
                             stateManager.setState('playerPosition', {
                                 heightPosition: 30,  // Initial side position
                                 sidePosition: 510 // Initial height position
@@ -62,16 +63,28 @@ const RegisterPlayer = () => {
                             break;
                         default:
                             break
-                    }
+                        }
                     counter++
                 }
                 document.getElementById('waitingMessage').textContent = `Waiting for other players to join... (${data.PlayerCount}/4)`;
                 if (data.PlayerCount === 4 && !gameStarted) {
+                    document.getElementById('player1').style.display = 'flex'
+                    document.getElementById('player2').style.display = 'flex'
+                    document.getElementById('player3').style.display = 'flex'
+                    document.getElementById('player4').style.display = 'flex'
                     clearTimeout(countdownTimer); // Stop the existing timer
                     gameStarted = true
-                    startGameCountdown(10); // Start the final 10 seconds countdown
+                    startGameCountdown(2); // Start the final 10 seconds countdown
                 } else if ((data.PlayerCount >= 2 && data.PlayerCount < 4) && !gameStarted) {
                     // Start the 20 seconds countdown, or skip to 10 seconds if 4 players join
+                    if (data.PlayerCount==2) {
+                        document.getElementById('player1').style.display = 'flex'
+                        document.getElementById('player2').style.display = 'flex'
+                    } else {
+                        document.getElementById('player1').style.display = 'flex'
+                        document.getElementById('player2').style.display = 'flex'
+                        document.getElementById('player3').style.display = 'flex'
+                    }
                     clearTimeout(countdownTimer);
                     startGameCountdown(10);
                 } else {
@@ -124,7 +137,6 @@ function startGameCountdown(seconds) {
             } else {
                 setGame()
             }
-            // router.navigateTo('/game'); // Start the game
         }
     }, 1000);
 }
