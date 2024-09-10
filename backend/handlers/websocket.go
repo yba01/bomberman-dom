@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bombermandom/pkg/models"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,21 +10,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-type Player struct {
-	MessageType string
-	Username string
-	InGameName string
-	Height string
-	Width string
-}
 
-type Message struct {
-	MessageType string
-	TheMessage string
-	PlayerCount int
-	Player Player
-	DataMap [][]int
-}
 
 var gameStarted = false
 
@@ -52,7 +39,7 @@ func WebSocketHandle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var player Player
+	var player models.Player
 	err = conn.ReadJSON(&player)
 
 	if err != nil {
@@ -70,14 +57,14 @@ func WebSocketHandle(w http.ResponseWriter, r *http.Request) {
 
 func HandleConn(conn *websocket.Conn, playerName string) {
 	DrawMap(playerName,InitMap,players)
-	var mess Message
+	var mess models.Message
 	mess.PlayerCount = len(players)
 	mess.MessageType = "playerCount"
 	mess.Player.Username = playerName
 	mess.Player.InGameName = "player"+strconv.Itoa(len(players))
 	broadcast(mess)
 	for {
-		var userMess Message
+		var userMess models.Message
 		err := conn.ReadJSON(&userMess)
 		if err != nil {
 			removePlayer(playerName)
@@ -95,6 +82,9 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 		if userMess.MessageType == "playerMovement" {
 			fmt.Println("player Moved")
 			userMess.Player.InGameName = mess.Player.InGameName
+			broadcast(userMess)
+		}
+		if userMess.MessageType == "playerPlaceBomb"{
 			broadcast(userMess)
 		}
 	}

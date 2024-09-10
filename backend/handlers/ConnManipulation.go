@@ -1,11 +1,12 @@
 package handlers
 
 import (
+	"bombermandom/pkg/models"
 	"fmt"
 	"log"
 )
 
-func broadcast(mess Message) {
+func broadcast(mess models.Message) {
 	fmt.Println("broadcasting", mess)
 	for player, conn := range players {
 		err := conn.WriteJSON(mess)
@@ -18,23 +19,9 @@ func broadcast(mess Message) {
 
 func removePlayer(player string) {
 	fmt.Println("removed:", player)
-	var mess Message
+	var mess models.Message
 	delete(players, player)
 	mess.MessageType = "playerCount"
 	mess.PlayerCount = len(players)
 	broadcast(mess)
 }
-
-// func PlayerMovementsBroadCast(mess Message) Message {
-// 	count := 1
-// 	for player := range players {
-// 		if player == mess.Player.Username {
-// 			ncount := strconv.Itoa(count)
-// 			mess.Player.Username = "player"+ncount
-// 			count=1
-// 			return mess
-// 		}
-// 		count++
-// 	}
-// 	return mess
-// }

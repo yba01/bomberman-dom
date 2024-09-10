@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"bombermandom/pkg/models"
 	"math/rand/v2"
 
 	"github.com/gorilla/websocket"
@@ -42,7 +43,7 @@ func GenerateMap(rows, cols int) [][]int {
 }
 
 func DrawMap(playerName string, dataMap [][]int, palyers map[string]*websocket.Conn) {
-	msg := Message{
+	msg := models.Message{
 		MessageType: "drawmap",
 		DataMap:     dataMap,
 	}

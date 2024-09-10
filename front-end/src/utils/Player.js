@@ -1,13 +1,14 @@
 import { eventSystem, router, stateManager } from "../app.js";
 import WaitingRoomComponent from "../components/WaitingRoom.js";
-import { update } from "../core/state.js";
+import { StateManager, update } from "../core/state.js";
 import { chatDisplay, chatHandle } from "./Chat.js";
 import { GameMapComponent } from "../components/map.js";
 import { sendMessage } from "./messages.js";
 import setGame from "./gameSet.js";
-import { displayMovement} from "./Mouvements.js";
+import { displayMovement } from "./Mouvements.js";
+import { PlaceBomb } from "./Bomb.js";
 // import { renderGameMap } from "./MapDraw.js";
-export let countdownTimer, gameStarted = false, socket, username, ActualUser, counter = 1, mapLayout
+export let countdownTimer, gameStarted = false, socket, username, ActualUser, counter = 1, mapLayout, tiles
 
 const RegisterPlayer = () => {
     username = document.getElementById('username').value;
@@ -29,41 +30,59 @@ const RegisterPlayer = () => {
             if (data.MessageType == "drawmap") {
                 update(GameMapComponent(data.DataMap), document.querySelector(".game-map"))
                 mapLayout = data.DataMap
+                tiles = document.querySelectorAll(".tile");
             }
-            
+
             if (data.MessageType == "playerCount") {
-                if (counter ==1) {
+                if (counter == 1) {
                     ActualUser = data
                     console.log(data);
                     switch (ActualUser.Player.InGameName) {
                         case 'player1':
                             stateManager.setState('playerPosition', {
-                                heightPosition: 30,  // Initial side position
-                                sidePosition: 30 // Initial height position
+                                heightPosition: 30,// Initial height position
+                                sidePosition: 30   // Initial side position
                             });
                             document.getElementById('player1').style.display = 'flex'
                             break;
-                            case 'player2':
+                        case 'player2':
                             stateManager.setState('playerPosition', {
-                                heightPosition: 30,  // Initial side position
-                                sidePosition: 510 // Initial height position
+                                heightPosition: 30,  // Initial height position 
+                                sidePosition: 510 // Initial side position
                             });
                             break;
                         case 'player3':
                             stateManager.setState('playerPosition', {
-                                heightPosition: 330,  // Initial side position
-                                sidePosition: 30 // Initial height position
+                                heightPosition: 330,  // Initial height position
+                                sidePosition: 30  // Initial side position
                             });
                             break;
                         case 'player4':
                             stateManager.setState('playerPosition', {
-                                heightPosition: 330,  // Initial side position
-                                sidePosition: 510 // Initial height position
+                                heightPosition: 330,  // Initial height position
+                                sidePosition: 510  // Initial side position
                             });
                             break;
                         default:
                             break
+                    }
+                    let height = (stateManager.getState("playerPosition")[0]).heightPosition
+                    let Width = (stateManager.getState("playerPosition")[0]).sidePosition
+                    console.log(height, Width);
+
+                    let messageStruct = {
+                        MessageType: "playerMovement",
+                        TheMessage: ``,
+                        PlayerCount: 0,
+                        Player: {
+                            Username: username,
+                            Height: `${height}`,
+                            Width: `${Width}`
                         }
+                    }
+                    sendMessage(socket, messageStruct)
+                    console.log(stateManager.getState("playerIndex"));
+
                     counter++
                 }
                 document.getElementById('waitingMessage').textContent = `Waiting for other players to join... (${data.PlayerCount}/4)`;
@@ -77,7 +96,7 @@ const RegisterPlayer = () => {
                     startGameCountdown(2); // Start the final 10 seconds countdown
                 } else if ((data.PlayerCount >= 2 && data.PlayerCount < 4) && !gameStarted) {
                     // Start the 20 seconds countdown, or skip to 10 seconds if 4 players join
-                    if (data.PlayerCount==2) {
+                    if (data.PlayerCount == 2) {
                         document.getElementById('player1').style.display = 'flex'
                         document.getElementById('player2').style.display = 'flex'
                     } else {
@@ -99,6 +118,9 @@ const RegisterPlayer = () => {
 
             if (data.MessageType == 'playerMovement') {
                 displayMovement(data)
+            }
+            if (data.MessageType == 'playerPlaceBomb') {
+                PlaceBomb(data)
             }
 
         };

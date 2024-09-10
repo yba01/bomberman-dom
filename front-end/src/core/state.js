@@ -29,9 +29,9 @@ export function StateManager() {
 
 
 
-// Create an instance of StateManager
-const stateManager = StateManager();
+// // Create an instance of StateManager
+// const stateManager = StateManager();
 
-// Export functions to interact with the player state
-export const addPlayer = (newPlayer) => stateManager.setState('players', newPlayer);
-export const getPlayers = () => stateManager.getState('players');
+// // Export functions to interact with the player state
+// export const addPlayer = (newPlayer) => stateManager.setState('players', newPlayer);
+// export const getPlayers = () => stateManager.getState('players');

@@ -1,5 +1,5 @@
 /* From Uiverse.io by anniekoop */
-body{
+body {
   min-width: 1000px;
   background-color: black;
   background-size: cover;
@@ -8,24 +8,33 @@ body{
 }
 
 .break {
-  content: url(./assets/tile_1.png);
+  content: url(./assets/img/tile_1.png);
   background-size: cover;
 }
 
+.bomb {
+  content: url(./assets/img/bomb.png);
+}
 
-.game-map{  
-  background-image: url(./assets/map.png);
+.explode {
+  background-image: url(./assets/img/explode.png);
+  opacity: 0;
+  transition: opacity .3s ease-in;
+}
+
+.game-map {
+  background-image: url(./assets/img/map.png);
   position: absolute;
   width: 570px;
   left: 25%;
   top: 150px;
   height: 390px;
   z-index: -1;
-  
+
 }
 
 /* .unbreak{
-  background-image: url(./assets/tile_0.png);
+  background-image: url(./assets/img/tile_0.png);
 } */
 
 .game-map .tile {
@@ -35,106 +44,10 @@ body{
   background-size: cover;
 }
 
-.input {
-    font-family: "SF Pro";
-    width: 300px;
-    padding: 0.875rem;
-    font-size: 1rem;
-    border: 1.5px solid #000;
-    border-radius: 0.5rem;
-    box-shadow: 2.5px 3px 0 #000;
-    outline: none;
-    transition: ease 0.25s;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -50px;
-    margin-left: -160px;
-}
 
-.input:focus {
-    box-shadow: 5.5px 7px 0 black;
-}
-
-/* From Uiverse.io by JaydipPrajapati1910 */ 
-.button {
-    top: 50%;
-    left: 50%;
-    margin-top: 10px;
-    margin-left: 30px;
-    width: 140px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
-    padding: 0px 15px;
-    background-color: red;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    position: absolute;
-    cursor: pointer;
-    font-weight: 900;
-    transition-duration: .2s;
-  }
-  
-  .game path {
-    color: white;
-  }
-  
-  .button .arrow {
-    position: absolute;
-    right: 0;
-    padding: 0px 5px;
-    width: 30px;
-    height: 100%;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .button:hover,
-  .button:focus {
-    background-color: black;
-    transition-duration: .2s;
-  }
-  
-  .button:hover .arrow {
-    animation: slide-right .6s ease-out both;
-  }
-  /* arrow animation */
-  
-  
-  .button:active {
-    transform: translate(1px , 1px);
-    transition-duration: .2s;
-  }
-
-
-  /* player infos */
-
-  .info {
-    font-family: myFont;
-    font-size: larger;
-    color: aliceblue;
-    position: absolute;
-    border: 2px solid whitesmoke;
-    margin-top: 100px;
-    width: 20%;
-    height: 20%;
-    top: 0px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-/* players disposition and style */
 
 #player1 {
-  background: url('./img/player1.png');
+  background: url('./assets/img/player1.png');
   width: 30px;
   height: 30px;
   position: absolute;
@@ -145,7 +58,7 @@ body{
 }
 
 #player2 {
-  background: url('./img/player2.png');
+  background: url('./assets/img/player2.png');
   width: 30px;
   height: 30px;
   position: absolute;
@@ -156,7 +69,7 @@ body{
 }
 
 #player3 {
-  background: url('./img/player3.png');
+  background: url('./assets/img/player3.png');
   width: 30px;
   height: 30px;
   position: absolute;
@@ -167,7 +80,7 @@ body{
 }
 
 #player4 {
-  background: url('./img/player4.png');
+  background: url('./assets/img/player4.png');
   width: 30px;
   height: 30px;
   position: absolute;
