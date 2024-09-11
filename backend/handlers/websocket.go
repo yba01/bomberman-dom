@@ -87,5 +87,8 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 		if userMess.MessageType == "playerPlaceBomb"{
 			broadcast(userMess)
 		}
+		if len(players) <= 1 {
+			gameStarted = false
+		}
 	}
 }
