@@ -177,7 +177,7 @@ function renderBonus(div) {
     if (div.classList.contains("speed")) {
         // div.classList.remove("explode")
 
-        div.style.backgroundImage = `url(data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><text x="50%" y="50%" font-size="20" text-anchor="middle" dominant-baseline="middle">💨</text></svg>)`;
+        div.style.backgroundImage = `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><text x="50%" y="50%" font-size="20" text-anchor="middle" dominant-baseline="middle">👟</text></svg>')`;
     }
     if (div.classList.contains("flame")) {
         // div.classList.remove("explode")

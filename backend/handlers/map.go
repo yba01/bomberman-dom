@@ -30,6 +30,12 @@ func GenerateMap(rows, cols int) [][]int {
 		for j := 0; j < cols; j++ {
 			if i == 0 || i == rows-1 || j == 0 || j == cols-1 || (j%2 == 0 && 2 <= j && j <= 16 && i%2 == 0) {
 				gameMap[i][j] = WallFixed
+			} else if (i == 6 && j == 9) {
+				gameMap[i][j] = WallDestructibleAndSpeed
+			} else if (i == 6 && j == 5){
+				gameMap[i][j] = WallDestructibleAndBomb
+			}else if (i == 6 && j == 13) {
+				gameMap[i][j] = WallDestructibleAndFlames
 			} else if rand.Float64() < 0.2 { // Placement aléatoire des murs destructibles (20% de chance)
 				if (i == 1 && j == 1) || (i == 1 && j == 17) ||
 					(i == 11 && j == 1) || (i == 11 && j == 17) ||
@@ -39,29 +45,12 @@ func GenerateMap(rows, cols int) [][]int {
 					(i == 10 && j == 17) || (i == 11 && j == 16) {
 					continue
 				}
-				gameMap[i][j] = ChooseWall()
+				gameMap[i][j] = WallDestructible
 			}
 		}
 	}
 	fmt.Println(gameMap)
 	return gameMap
-}
-
-func ChooseWall() int {
-	numbers := []int{2,3,4,2,5}
-
-	randomIndex := rand.Intn(len(numbers)) // Randomly choose an index
-	chosenNumber := numbers[randomIndex]   // Get the number at that index
-	switch chosenNumber {
-		case 2:
-			return WallDestructible
-		case 3:
-			return WallDestructibleAndBomb
-		case 4:
-			return WallDestructibleAndSpeed
-		default:
-			return WallDestructibleAndFlames
-	} 
 }
 
 func DrawMap(playerName string, dataMap [][]int, palyers map[string]*websocket.Conn) {
