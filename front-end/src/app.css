@@ -16,6 +16,7 @@ body {
   content: url(./assets/img/bomb.png);
 }
 
+
 .explode {
   background-image: url(./assets/img/explode.png);
   opacity: 0;

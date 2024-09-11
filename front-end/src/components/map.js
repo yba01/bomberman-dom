@@ -10,10 +10,20 @@ export function GameMapComponent(dataMap) {
 
     let tileDivs = []
     dataMap.forEach(tiles => {
+        console.log(tiles)
         tiles.forEach((tile) => {
             switch (tile) {
+                case 5:
+                    tileDivs.push(createElement('div', { class: "tile break flame" }))
+                    break
+                case 4:
+                    tileDivs.push(createElement('div', { class: "tile break speed"}))
+                    break
+                case 3:
+                    tileDivs.push(createElement('div', { class: "tile break bombing"}))
+                    break
                 case 2:
-                    tileDivs.push(createElement('div', { class: "tile break" }))
+                    tileDivs.push(createElement('div', { class: "tile break"}))
                     break
                 case 1:
                     tileDivs.push(createElement('div', { class: "tile unbreak" }))

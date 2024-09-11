@@ -109,6 +109,7 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
 
         mapLayout[bombY][bombX - 1] = 0
         // ennemyDie(posExplodeLeft, posEnnemys)
+        renderBonus(brickExplodeLeft)
     }
 
 
@@ -118,24 +119,37 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
         brickExplodeRight.classList.remove("break")
         brickExplodeRight.classList.add("explode")
         mapLayout[bombY][bombX + 1] = 0
+        renderBonus(brickExplodeRight)
     }
 
 
     if (!brickExplodeUp.classList.contains("unbreak")) {
         positionExplodeUp = [bombY - 1, bombX]
-        if (brickExplodeUp.classList.contains("break")) {
-            Score(100)
-        }
+        // if (brickExplodeUp.classList.contains("break")) {
+        //     Score(100)
+        // }
         brickExplodeUp.classList.remove("break")
         brickExplodeUp.classList.add("explode")
         mapLayout[bombY - 1][bombX] = 0
+        renderBonus(brickExplodeUp)
     }
     if (!brickExplodeDown.classList.contains("unbreak")) {
         posExplodeDown = [bombY + 1, bombX]
         brickExplodeDown.classList.remove("break")
         brickExplodeDown.classList.add("explode")
         mapLayout[bombY + 1][bombX] = 0
+        renderBonus(brickExplodeDown)
     }
+
+    setTimeout(() => {
+        bomb.classList.remove("explode")//middle
+        brickExplodeLeft.classList.remove("explode")
+        brickExplodeRight.classList.remove("explode")
+        brickExplodeUp.classList.remove("explode")
+        brickExplodeDown.classList.remove("explode")
+
+    }, 350)
+
     switch(playerIGName){
         case 'player1':
            BombOn1 = false
@@ -155,4 +169,20 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
 
 }
 
+function renderBonus(div) {
+    if (div.classList.contains("bombing")) {
+        // div.classList.remove("explode")
+        div.style.backgroundImage = "url('./assets/img/bomb.png')";
+    }
+    if (div.classList.contains("speed")) {
+        // div.classList.remove("explode")
+
+        div.style.backgroundImage = `url(data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><text x="50%" y="50%" font-size="20" text-anchor="middle" dominant-baseline="middle">💨</text></svg>)`;
+    }
+    if (div.classList.contains("flame")) {
+        // div.classList.remove("explode")
+
+        div.style.backgroundImage = `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><text x="50%" y="50%" font-size="20" text-anchor="middle" dominant-baseline="middle">🔥</text></svg>')`;
+    }
+}
 

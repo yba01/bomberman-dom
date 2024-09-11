@@ -2,7 +2,8 @@ package handlers
 
 import (
 	"bombermandom/pkg/models"
-	"math/rand/v2"
+	"fmt"
+	"math/rand"
 
 	"github.com/gorilla/websocket"
 )
@@ -11,6 +12,10 @@ const (
 	Empty            = 0
 	WallFixed        = 1
 	WallDestructible = 2
+	WallDestructibleAndBomb = 3
+	WallDestructibleAndSpeed = 4
+	WallDestructibleAndFlames = 5
+
 )
 
 func GenerateMap(rows, cols int) [][]int {
@@ -34,12 +39,29 @@ func GenerateMap(rows, cols int) [][]int {
 					(i == 10 && j == 17) || (i == 11 && j == 16) {
 					continue
 				}
-				gameMap[i][j] = WallDestructible
+				gameMap[i][j] = ChooseWall()
 			}
 		}
 	}
-
+	fmt.Println(gameMap)
 	return gameMap
+}
+
+func ChooseWall() int {
+	numbers := []int{2,3,4,2,5}
+
+	randomIndex := rand.Intn(len(numbers)) // Randomly choose an index
+	chosenNumber := numbers[randomIndex]   // Get the number at that index
+	switch chosenNumber {
+		case 2:
+			return WallDestructible
+		case 3:
+			return WallDestructibleAndBomb
+		case 4:
+			return WallDestructibleAndSpeed
+		default:
+			return WallDestructibleAndFlames
+	} 
 }
 
 func DrawMap(playerName string, dataMap [][]int, palyers map[string]*websocket.Conn) {
