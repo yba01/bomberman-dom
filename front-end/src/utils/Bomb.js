@@ -142,8 +142,8 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
                         }
                     }
                     sendMessage(socket, messageStruct)
+                    document.getElementById('loose').style.display = 'flex'
                 }
-                document.getElementById('loose').style.display = 'flex'
             }
             brick.classList.remove("break")
             brick.classList.add("explode")
