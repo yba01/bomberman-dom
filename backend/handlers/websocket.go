@@ -85,9 +85,12 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 		if userMess.MessageType == "playerPlaceBomb" || userMess.MessageType == "powerUp" {
 			broadcast(userMess)
 		}
-		
-		if len(players) <= 1 {
-			gameStarted = false
+		if userMess.MessageType == "lost" {
+			fmt.Println("a user lost")
+			removePlayer(userMess.Player.Username)
+			userMess.PlayerCount = len(players)
+			broadcast(userMess)
+			break
 		}
 	}
 }

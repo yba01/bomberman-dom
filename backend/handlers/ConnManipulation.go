@@ -21,6 +21,9 @@ func removePlayer(player string) {
 	fmt.Println("removed:", player)
 	var mess models.Message
 	delete(players, player)
+	if len(players) <= 1 {
+		gameStarted = false
+	}
 	mess.MessageType = "playerCount"
 	mess.PlayerCount = len(players)
 	broadcast(mess)

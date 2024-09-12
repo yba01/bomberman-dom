@@ -1,7 +1,8 @@
 import { stateManager } from "../app.js"
-import { BombOn1Up, BombOn2Up, BombOn3Up, BombOn4Up, mapLayout, tiles, ApplyFlame } from "./Player.js"
+import { sendMessage } from "./messages.js";
+import { ActualUser, BombOn1Up, BombOn2Up, BombOn3Up, BombOn4Up, mapLayout, socket, tiles, username, ApplyFlame } from "./Player.js"
 
-let BombOn1, BombOn2, BombOn3, BombOn4 = false
+let BombOn1, BombOn2, BombOn3, BombOn4 = false, PLayerHealth = 3
 
 export function PlaceBomb(message) {
     console.log(message.Player.InGameName);

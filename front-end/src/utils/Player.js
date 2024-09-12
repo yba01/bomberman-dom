@@ -175,6 +175,16 @@ const RegisterPlayer = () => {
 
             }
 
+            if (data.MessageType === "lost") {
+                console.log("A USERR",data);
+                
+                document.getElementById(data.Player.InGameName).style.display = "none"
+                if (data.PlayerCount === 1) {
+                    alert('you WONNN~~~ Congratss')
+                    socket.close()
+                }
+            }
+
         };
 
         socket.onerror = (error) => {
