@@ -10,7 +10,7 @@ export function GameMapComponent(dataMap) {
 
     let tileDivs = []
     dataMap.forEach(tiles => {
-        console.log(tiles)
+        // console.log(tiles)
         tiles.forEach((tile) => {
             switch (tile) {
                 case 5:

@@ -8,7 +8,10 @@ import setGame from "./gameSet.js";
 import { displayMovement } from "./Mouvements.js";
 import { PlaceBomb } from "./Bomb.js";
 // import { renderGameMap } from "./MapDraw.js";
-export let countdownTimer, gameStarted = false, socket, username, ActualUser, counter = 1, mapLayout, tiles
+export let countdownTimer, gameStarted = false, socket,
+    username, ActualUser, counter = 1, mapLayout, tiles,
+    speedUpIndex, bombUpIndex, flameUpIndex,
+    BombOn1Up = true, BombOn2Up = true, BombOn3Up = true, BombOn4Up = true
 
 const RegisterPlayer = () => {
     username = document.getElementById('username').value;
@@ -31,6 +34,11 @@ const RegisterPlayer = () => {
                 update(GameMapComponent(data.DataMap), document.querySelector(".game-map"))
                 mapLayout = data.DataMap
                 tiles = document.querySelectorAll(".tile");
+                speedUpIndex = data.PowerUpIndex[0]
+                bombUpIndex = data.PowerUpIndex[1]
+                flameUpIndex = data.PowerUpIndex[2]
+                console.log(speedUpIndex, bombUpIndex, flameUpIndex);
+
             }
 
             if (data.MessageType == "playerCount") {
@@ -121,6 +129,41 @@ const RegisterPlayer = () => {
             }
             if (data.MessageType == 'playerPlaceBomb') {
                 PlaceBomb(data)
+            }
+            if (data.MessageType == "powerUp") {
+                if (data.Player.SpeedUp) {
+                    let speedY = speedUpIndex[0]
+                    let speedX = speedUpIndex[1]
+                    let tileIndex = (speedY * 19) + speedX
+                    tiles[tileIndex].classList.remove("speed")
+                    tiles[tileIndex].style.backgroundImage = 'none'
+                    let player = document.getElementById(data.Player.InGameName)
+                    player.style.transition = 'transform 0.01s ease-in-out'
+                }
+                if (data.Player.BombUp) {
+                    let bombY = bombUpIndex[0]
+                    let bombX = bombUpIndex[1]
+                    let tileIndex = (bombY * 19) + bombX
+                    tiles[tileIndex].classList.remove("bombing")
+                    tiles[tileIndex].style.backgroundImage = 'none'
+                    switch (data.Player.InGameName) {
+                        case 'player1':
+                            BombOn1Up = false
+                            break;
+                        case 'player2':
+                            BombOn2Up = false
+                            break;
+                        case 'player3':
+                            BombOn3Up = false
+                            break;
+                        case 'player4':
+                            BombOn4Up = false
+                            break;
+                        default:
+                            break
+                    }
+                }
+
             }
 
         };

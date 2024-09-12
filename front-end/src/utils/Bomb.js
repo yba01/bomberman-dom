@@ -1,5 +1,5 @@
 import { stateManager } from "../app.js"
-import { mapLayout, tiles } from "./Player.js"
+import { BombOn1Up, BombOn2Up, BombOn3Up, BombOn4Up, mapLayout, tiles } from "./Player.js"
 
 let BombOn1, BombOn2, BombOn3, BombOn4 = false
 
@@ -22,7 +22,7 @@ export function PlaceBomb(message) {
 
                 bomb.classList.remove("explode");
                 bomb.classList.add("bomb");
-                BombOn1 = true
+                BombOn1 = BombOn1Up
                 setTimeout(explodeBomb, 2000, bomb, indexBomb, tiles, bombY, bombX, message.Player.InGameName);
 
             }
@@ -41,7 +41,7 @@ export function PlaceBomb(message) {
 
                 bomb.classList.remove("explode");
                 bomb.classList.add("bomb");
-                BombOn2 = true
+                BombOn2 = BombOn2Up
                 setTimeout(explodeBomb, 2000, bomb, indexBomb, tiles, bombY, bombX, message.Player.InGameName);
 
             }
@@ -60,7 +60,7 @@ export function PlaceBomb(message) {
 
                 bomb.classList.remove("explode");
                 bomb.classList.add("bomb");
-                BombOn3 = true
+                BombOn3 = BombOn3Up
                 setTimeout(explodeBomb, 2000, bomb, indexBomb, tiles, bombY, bombX, message.Player.InGameName);
 
             }
@@ -80,7 +80,7 @@ export function PlaceBomb(message) {
 
                 bomb.classList.remove("explode");
                 bomb.classList.add("bomb");
-                BombOn4 = true
+                BombOn4 = BombOn4Up
                 setTimeout(explodeBomb, 2000, bomb, indexBomb, tiles, bombY, bombX, message.Player.InGameName);
 
             }
@@ -150,17 +150,17 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
 
     }, 350)
 
-    switch(playerIGName){
+    switch (playerIGName) {
         case 'player1':
-           BombOn1 = false
+            BombOn1 = false
             break;
         case 'player2':
-           BombOn2 = false
-            
+            BombOn2 = false
+
             break;
         case 'player3':
             BombOn3 = false
-           
+
             break;
         case 'player4':
             BombOn4 = false
@@ -168,6 +168,7 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
     }
 
 }
+
 
 function renderBonus(div) {
     if (div.classList.contains("bombing")) {

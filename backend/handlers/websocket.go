@@ -10,11 +10,9 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-
-
 var gameStarted = false
 
-var InitMap = GenerateMap(13,19)
+var InitMap = GenerateMap(13, 19)
 
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
@@ -56,12 +54,12 @@ func WebSocketHandle(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandleConn(conn *websocket.Conn, playerName string) {
-	DrawMap(playerName,InitMap,players)
+	DrawMap(playerName, InitMap, players)
 	var mess models.Message
 	mess.PlayerCount = len(players)
 	mess.MessageType = "playerCount"
 	mess.Player.Username = playerName
-	mess.Player.InGameName = "player"+strconv.Itoa(len(players))
+	mess.Player.InGameName = "player" + strconv.Itoa(len(players))
 	broadcast(mess)
 	for {
 		var userMess models.Message
@@ -84,9 +82,10 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 			userMess.Player.InGameName = mess.Player.InGameName
 			broadcast(userMess)
 		}
-		if userMess.MessageType == "playerPlaceBomb"{
+		if userMess.MessageType == "playerPlaceBomb" || userMess.MessageType == "powerUp" {
 			broadcast(userMess)
 		}
+		
 		if len(players) <= 1 {
 			gameStarted = false
 		}
