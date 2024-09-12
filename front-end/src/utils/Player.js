@@ -180,7 +180,7 @@ const RegisterPlayer = () => {
                 
                 document.getElementById(data.Player.InGameName).style.display = "none"
                 if (data.PlayerCount === 1) {
-                    alert('you WONNN~~~ Congratss')
+                    document.getElementById('win').style.display = "flex"
                     socket.close()
                 }
             }

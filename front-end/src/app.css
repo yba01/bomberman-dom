@@ -16,6 +16,10 @@ body {
   content: url(./assets/img/BALL.png);
 }
 
+#win {
+  content: url(./assets/img/victory.jpg);
+  display: none;
+}
 
 .explode {
   background-image: url(./assets/img/explode.png);

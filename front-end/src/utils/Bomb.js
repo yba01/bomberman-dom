@@ -170,6 +170,7 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
 
 function flameIt(key, player, oneMoreIndex, bombY, bombX) {
     console.log(key)
+    const currentPositions = stateManager.getState('playerPosition')[0];  // Ensure this is retrieved
     if (ApplyFlame.user === player) {
         const position = tiles[oneMoreIndex];
         if (position && !position.classList.contains("unbreak")) {
@@ -180,9 +181,11 @@ function flameIt(key, player, oneMoreIndex, bombY, bombX) {
                 case "up": explodePos = [bombY - 2, bombX]; break;
                 case "down": explodePos = [bombY + 2, bombX]; break;
             }
-            if (explodePos[0]*30 == currentPositions.heightPosition && explodePos[1]*30 == currentPositions.sidePosition) {
-                PLayerHealth--
-                document.getElementById('lives').textContent = `HEALTH : ${PLayerHealth}`
+            
+            // Check if player is in the explosion range
+            if (explodePos[0] * 30 == currentPositions.heightPosition && explodePos[1] * 30 == currentPositions.sidePosition) {
+                PLayerHealth--;
+                document.getElementById('lives').textContent = `HEALTH : ${PLayerHealth}`;
                 if (PLayerHealth == 0) {
                     let messageStruct = {
                         MessageType: "lost",
@@ -192,17 +195,24 @@ function flameIt(key, player, oneMoreIndex, bombY, bombX) {
                             Username: username,
                             InGameName: ActualUser.Player.InGameName
                         }
-                    }
-                    sendMessage(socket, messageStruct)
+                    };
+                    sendMessage(socket, messageStruct);
                 }
             }
-            position.classList.remove("break")
-            position.classList.add("explode")
-            mapLayout[explodePos[0]][explodePos[1]] = 0
-            renderBonus(position)
+
+            // Apply explosion effect
+            position.classList.remove("break");
+            position.classList.add("explode");
+
+            // Update map layout
+            mapLayout[explodePos[0]][explodePos[1]] = 0;
+
+            // Render bonus if applicable
+            renderBonus(position);
         }
     }
 }
+
 
 
 
