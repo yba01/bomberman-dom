@@ -5,6 +5,7 @@ body {
   background-size: cover;
   border-radius: 40%;
   color: white;
+  overflow: hidden;
 }
 
 .break {
@@ -21,7 +22,14 @@ body {
   margin: auto;
   width: 100%;
   height: auto;
-  overflow: none;
+  display: none;
+}
+
+#loose {
+  content: url(./assets/img/loose.jpg);
+  margin: auto;
+  width: 100%;
+  height: auto;
   display: none;
 }
 

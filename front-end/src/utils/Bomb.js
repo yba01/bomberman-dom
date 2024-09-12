@@ -109,7 +109,7 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
             }
             sendMessage(socket, messageStruct)
             document.getElementById(ActualUser.Player.InGameName).style.display = 'none'
-            alert('you lost')
+            document.getElementById('loose').style.display = 'flex'
         }
     }
     bomb.classList.remove("bomb")
@@ -143,6 +143,7 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
                     }
                     sendMessage(socket, messageStruct)
                 }
+                document.getElementById('loose').style.display = 'flex'
             }
             brick.classList.remove("break")
             brick.classList.add("explode")
@@ -197,6 +198,7 @@ function flameIt(key, player, oneMoreIndex, bombY, bombX) {
                         }
                     };
                     sendMessage(socket, messageStruct);
+                    document.getElementById('loose').style.display = 'flex'
                 }
             }
 
