@@ -10,6 +10,7 @@ type Player struct {
 	Bomb_Y      int
 	SpeedUp     bool
 	BombUp      bool
+	FlameUp		bool
 }
 
 type Message struct {

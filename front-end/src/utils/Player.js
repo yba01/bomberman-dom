@@ -11,7 +11,7 @@ import { PlaceBomb } from "./Bomb.js";
 export let countdownTimer, gameStarted = false, socket,
     username, ActualUser, counter = 1, mapLayout, tiles,
     speedUpIndex, bombUpIndex, flameUpIndex,
-    BombOn1Up = true, BombOn2Up = true, BombOn3Up = true, BombOn4Up = true
+    BombOn1Up = true, BombOn2Up = true, BombOn3Up = true, BombOn4Up = true, ApplyFlame = {user:"", flame: false}
 
 const RegisterPlayer = () => {
     username = document.getElementById('username').value;
@@ -136,7 +136,7 @@ const RegisterPlayer = () => {
                     let speedX = speedUpIndex[1]
                     let tileIndex = (speedY * 19) + speedX
                     tiles[tileIndex].classList.remove("speed")
-                    tiles[tileIndex].style.backgroundImage = 'none'
+                    tiles[tileIndex].style.backgroundImage = ''
                     let player = document.getElementById(data.Player.InGameName)
                     player.style.transition = 'transform 0.01s ease-in-out'
                 }
@@ -145,7 +145,7 @@ const RegisterPlayer = () => {
                     let bombX = bombUpIndex[1]
                     let tileIndex = (bombY * 19) + bombX
                     tiles[tileIndex].classList.remove("bombing")
-                    tiles[tileIndex].style.backgroundImage = 'none'
+                    tiles[tileIndex].style.backgroundImage = ''
                     switch (data.Player.InGameName) {
                         case 'player1':
                             BombOn1Up = false
@@ -162,6 +162,15 @@ const RegisterPlayer = () => {
                         default:
                             break
                     }
+                }
+                if (data.Player.FlameUp) {
+                    let flameY = flameUpIndex[0]
+                    let flameX = flameUpIndex[1]
+                    let tileIndex = (flameY * 19) + flameX
+                    tiles[tileIndex].classList.remove("flame")
+                    tiles[tileIndex].style.backgroundImage = ''
+                    ApplyFlame.user = data.Player.InGameName
+                    ApplyFlame.flame = true
                 }
 
             }

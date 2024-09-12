@@ -1,7 +1,7 @@
 import { stateManager } from "../app.js"
 import { sendMessage } from "./messages.js"
 import { mapLayout, socket, username } from "./Player.js"
-import { bombUp, speedUp } from "./powerUp.js";
+import { bombUp, speedUp, flameUp } from "./powerUp.js";
 
 export function movePlayer(direction) {
     const currentPositions = stateManager.getState('playerPosition')[0] || {
@@ -85,6 +85,7 @@ export function displayMovement(mess) {
 
     speedUp(mess.Player.InGameName)
     bombUp(mess.Player.InGameName)
+    flameUp(mess.Player.InGameName)
 
 }
 

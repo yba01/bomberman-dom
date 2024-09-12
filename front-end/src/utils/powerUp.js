@@ -46,4 +46,24 @@ function bombUp(actualPlayer) {
     }
 }
 
-export { speedUp, bombUp }
+function flameUp(actualPlayer) {
+    if (ActualUser.Player.InGameName == actualPlayer) {
+        let ActualPlayerY = stateManager.getState(actualPlayer)[0].index_Y
+        let ActualPlayerX = stateManager.getState(actualPlayer)[0].index_X
+        console.log("FlameUp", ActualPlayerY, ActualPlayerX);
+        let tileIndex = (ActualPlayerY * 19) + ActualPlayerX
+        if (tiles[tileIndex].classList.contains("flame")) {
+            let message = {
+                MessageType: "powerUp",
+                Player: {
+                    InGameName: actualPlayer,
+                    FlameUp: true
+                },
+            }
+            sendMessage(socket, message)
+        }
+
+    }
+}
+
+export { speedUp, bombUp, flameUp }
