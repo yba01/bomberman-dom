@@ -96,6 +96,9 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
     console.log('bombY, curre', bombY, currentPositions.heightPosition, bombX, currentPositions.sidePosition)
     if (bombY*30 == currentPositions.heightPosition && bombX*30 == currentPositions.sidePosition) {
         PLayerHealth--
+        if (PLayerHealth <= 0) {
+            PLayerHealth = 0
+        }
         document.getElementById('lives').textContent = `HEALTH : ${PLayerHealth}`
         if (PLayerHealth == 0) {
             let messageStruct = {
@@ -130,6 +133,9 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
             let explodePos = directions[direction].pos;
             if (explodePos[0]*30 == currentPositions.heightPosition && explodePos[1]*30 == currentPositions.sidePosition) {
                 PLayerHealth--
+                if (PLayerHealth <= 0) {
+                    PLayerHealth = 0
+                }
                 document.getElementById('lives').textContent = `HEALTH : ${PLayerHealth}`
                 if (PLayerHealth == 0) {
                     let messageStruct = {
@@ -186,6 +192,9 @@ function flameIt(key, player, oneMoreIndex, bombY, bombX) {
             // Check if player is in the explosion range
             if (explodePos[0] * 30 == currentPositions.heightPosition && explodePos[1] * 30 == currentPositions.sidePosition) {
                 PLayerHealth--;
+                if (PLayerHealth <= 0) {
+                    PLayerHealth = 0
+                }
                 document.getElementById('lives').textContent = `HEALTH : ${PLayerHealth}`;
                 if (PLayerHealth == 0) {
                     let messageStruct = {
