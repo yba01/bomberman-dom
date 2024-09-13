@@ -5,21 +5,17 @@ import { ActualUser, BombOn1Up, BombOn2Up, BombOn3Up, BombOn4Up, mapLayout, sock
 let BombOn1, BombOn2, BombOn3, BombOn4 = false, PLayerHealth = 3
 
 export function PlaceBomb(message) {
-    console.log(message.Player.InGameName);
 
     switch (message.Player.InGameName) {
         case "player1":
-            console.log(BombOn1);
 
             if (!BombOn1) {
                 let bombX = message.Player.Bomb_X
                 let bombY = message.Player.Bomb_Y
 
                 let indexBomb = (bombY * 19) + bombX
-                console.log(tiles);
 
                 let bomb = tiles[indexBomb]
-                console.log(bomb);
 
                 bomb.classList.remove("explode");
                 bomb.classList.add("bomb");
@@ -35,10 +31,8 @@ export function PlaceBomb(message) {
                 let bombY = message.Player.Bomb_Y
 
                 let indexBomb = (bombY * 19) + bombX
-                console.log(tiles);
 
                 let bomb = tiles[indexBomb]
-                console.log(bomb);
 
                 bomb.classList.remove("explode");
                 bomb.classList.add("bomb");
@@ -54,10 +48,8 @@ export function PlaceBomb(message) {
                 let bombY = message.Player.Bomb_Y
 
                 let indexBomb = (bombY * 19) + bombX
-                console.log(tiles);
 
                 let bomb = tiles[indexBomb]
-                console.log(bomb);
 
                 bomb.classList.remove("explode");
                 bomb.classList.add("bomb");
@@ -74,10 +66,8 @@ export function PlaceBomb(message) {
                 let bombY = message.Player.Bomb_Y
 
                 let indexBomb = (bombY * 19) + bombX
-                console.log(tiles);
 
                 let bomb = tiles[indexBomb]
-                console.log(bomb);
 
                 bomb.classList.remove("explode");
                 bomb.classList.add("bomb");
@@ -93,7 +83,6 @@ export function PlaceBomb(message) {
 
 function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
     const currentPositions = stateManager.getState('playerPosition')[0] 
-    console.log('bombY, curre', bombY, currentPositions.heightPosition, bombX, currentPositions.sidePosition)
     if (bombY*30 == currentPositions.heightPosition && bombX*30 == currentPositions.sidePosition) {
         PLayerHealth--
         if (PLayerHealth <= 0) {
@@ -117,7 +106,6 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
     }
     bomb.classList.remove("bomb")
     bomb.classList.add("explode")
-    console.log(ApplyFlame)
     // Create objects for explosion tiles
     const directions = {
         left: { index: indexBomb - 1, pos: [bombY, bombX - 1], oneMore: indexBomb - 2 },
@@ -176,7 +164,6 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
 }
 
 function flameIt(key, player, oneMoreIndex, bombY, bombX) {
-    console.log(key)
     const currentPositions = stateManager.getState('playerPosition')[0];  // Ensure this is retrieved
     if (ApplyFlame.user === player) {
         const position = tiles[oneMoreIndex];

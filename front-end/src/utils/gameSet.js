@@ -10,7 +10,6 @@ export default function setGame() {
     let count = 10
 
     eventSystem.on('keydown', '#root', (e) => {
-        console.log('chekcing movements');
 
         if (count % 10 == 0) {
             movePlayer(e)
@@ -18,13 +17,11 @@ export default function setGame() {
         count++
     })
     eventSystem.on('keyup', '#root', ({ key }) => {
-        console.log('chekcing movements');
         count = 0
 
 
         if (key == " ") {
             let actualPlayer = ActualUser.Player.InGameName
-            console.log(actualPlayer);
             let x = stateManager.getState(actualPlayer)[0].index_X// index x of user when the bomb is place
             let y = stateManager.getState(actualPlayer)[0].index_Y // index y of user when the bomb is place
             let message = {

@@ -17,7 +17,6 @@ const RegisterPlayer = () => {
     username = document.getElementById('username').value;
     if (username.split(' ').join('') != '' && username.length < 7) {
         document.getElementById('error').textContent = ''
-        console.log(window.location.hostname);
 
         socket = new WebSocket(`ws://${window.location.hostname + ":8081"}/ws`);
 
@@ -30,7 +29,6 @@ const RegisterPlayer = () => {
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            console.log(event.data);
             if (data.MessageType == "drawmap") {
                 update(GameMapComponent(data.DataMap), document.querySelector(".game-map"))
                 mapLayout = data.DataMap
@@ -38,14 +36,12 @@ const RegisterPlayer = () => {
                 speedUpIndex = data.PowerUpIndex[0]
                 bombUpIndex = data.PowerUpIndex[1]
                 flameUpIndex = data.PowerUpIndex[2]
-                console.log(speedUpIndex, bombUpIndex, flameUpIndex);
 
             }
 
             if (data.MessageType == "playerCount") {
                 if (counter == 1) {
                     ActualUser = data
-                    console.log(data);
                     switch (ActualUser.Player.InGameName) {
                         case 'player1':
                             stateManager.setState('playerPosition', {
@@ -77,7 +73,6 @@ const RegisterPlayer = () => {
                     }
                     let height = (stateManager.getState("playerPosition")[0]).heightPosition
                     let Width = (stateManager.getState("playerPosition")[0]).sidePosition
-                    console.log(height, Width);
 
                     let messageStruct = {
                         MessageType: "playerMovement",
@@ -90,7 +85,6 @@ const RegisterPlayer = () => {
                         }
                     }
                     sendMessage(socket, messageStruct)
-                    console.log(stateManager.getState("playerIndex"));
 
                     counter++
                 }
@@ -116,6 +110,11 @@ const RegisterPlayer = () => {
                     clearTimeout(countdownTimer);
                     startGameCountdown(10);
                 } else {
+                    if (gameStarted) {
+                        document.getElementById('win').style.display = "flex"
+                        socket.close()
+                        return
+                    }
                     clearTimeout(countdownTimer);
                     document.getElementById('WRtimer').textContent = 'At least 2 players...';
                 }
@@ -128,9 +127,11 @@ const RegisterPlayer = () => {
             if (data.MessageType == 'playerMovement') {
                 displayMovement(data)
             }
+
             if (data.MessageType == 'playerPlaceBomb') {
                 PlaceBomb(data)
             }
+            
             if (data.MessageType == "powerUp") {
                 if (data.Player.SpeedUp) {
                     let speedY = speedUpIndex[0]
@@ -177,7 +178,6 @@ const RegisterPlayer = () => {
             }
 
             if (data.MessageType === "lost") {
-                console.log("A USERR",data);
                 
                 document.getElementById(data.Player.InGameName).style.display = "none"
                 if (data.PlayerCount === 1) {

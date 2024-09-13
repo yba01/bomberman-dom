@@ -6,7 +6,6 @@ export class EventSystem {
 
     // Method to register an event handler
     on(event, selector, handler) {
-        // console.log(event);
         
         if (!this.events[event]) {
             this.events[event] = [];
@@ -41,12 +40,3 @@ export class EventSystem {
         }
     }
 }
-// Example usage
-// export const eventSystem = new EventSystem();
-
-// // Attaching a click event to a button with a specific ID
-// eventSystem.on('click', '#myButton', function (e) {
-//     console.log(e.target);
-//     //  e.target
-//     // alert('Button clicked!');
-// });

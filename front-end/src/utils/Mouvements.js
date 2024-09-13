@@ -40,13 +40,12 @@ export function movePlayer(direction) {
         sidePosition: newSidePosition,
         heightPosition: newHeightPosition
     });
-    console.log(stateManager.getState("playerPosition"));
+    (stateManager.getState("playerPosition"));
 
     stateManager.setState('playerIndex', {
         index_Y: newHeightPosition / 30,
         index_X: newSidePosition / 30,
     })
-    console.log(stateManager.getState("playerIndex"));
 
     let messageStruct = {
         MessageType: "playerMovement",
@@ -58,7 +57,6 @@ export function movePlayer(direction) {
             Width: `${newSidePosition}`
         }
     }
-    console.log('messageStruct', messageStruct)
     sendMessage(socket, messageStruct)
 }
 
@@ -74,7 +72,6 @@ export function verifyNextBlock(posY, posX) {
 
 export function displayMovement(mess) {
     let player = document.getElementById(mess.Player.InGameName)
-    // console.log(typeof mess.Player.Height);
 
     stateManager.setState(mess.Player.InGameName, {
         index_Y: parseInt(mess.Player.Height, 10) / 30,

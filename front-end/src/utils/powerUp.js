@@ -7,7 +7,6 @@ function speedUp(actualPlayer) {
     if (ActualUser.Player.InGameName == actualPlayer) {
         let ActualPlayerY = stateManager.getState(actualPlayer)[0].index_Y
         let ActualPlayerX = stateManager.getState(actualPlayer)[0].index_X
-        console.log("speedUp", ActualPlayerY, ActualPlayerX);
         let tileIndex = (ActualPlayerY * 19) + ActualPlayerX
         if (tiles[tileIndex].classList.contains("speed")) {
             let message = {
@@ -29,7 +28,6 @@ function bombUp(actualPlayer) {
     if (ActualUser.Player.InGameName == actualPlayer) {
         let ActualPlayerY = stateManager.getState(actualPlayer)[0].index_Y
         let ActualPlayerX = stateManager.getState(actualPlayer)[0].index_X
-        console.log("bombUp", ActualPlayerY, ActualPlayerX);
         let tileIndex = (ActualPlayerY * 19) + ActualPlayerX
         if (tiles[tileIndex].classList.contains("bombing")) {
             let message = {
@@ -50,7 +48,6 @@ function flameUp(actualPlayer) {
     if (ActualUser.Player.InGameName == actualPlayer) {
         let ActualPlayerY = stateManager.getState(actualPlayer)[0].index_Y
         let ActualPlayerX = stateManager.getState(actualPlayer)[0].index_X
-        console.log("FlameUp", ActualPlayerY, ActualPlayerX);
         let tileIndex = (ActualPlayerY * 19) + ActualPlayerX
         if (tiles[tileIndex].classList.contains("flame")) {
             let message = {

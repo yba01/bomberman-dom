@@ -8,7 +8,6 @@ export function chatHandle(socket) {
         return
     }
     document.getElementById('error').textContent = ''
-    console.log(messageContent);
     
     let messageStruct = {
         MessageType: "chat",

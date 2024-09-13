@@ -29,6 +29,8 @@ body {
   width: 100%;
   height: auto;
   display: none;
+  position: absolute;
+  z-index: 1;
 }
 
 #loose {
@@ -37,6 +39,8 @@ body {
   width: 100%;
   height: auto;
   display: none;
+  position: absolute;
+  z-index: 1;
 }
 
 .explode {
