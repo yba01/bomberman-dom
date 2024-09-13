@@ -16,6 +16,7 @@ export let countdownTimer, gameStarted = false, socket,
 const RegisterPlayer = () => {
     username = document.getElementById('username').value;
     if (username.split(' ').join('') != '' && username.length < 7) {
+        document.getElementById('error').textContent = ''
         console.log(window.location.hostname);
 
         socket = new WebSocket(`ws://${window.location.hostname + ":8081"}/ws`);
@@ -191,7 +192,7 @@ const RegisterPlayer = () => {
             alert('Error: Unable to join the game. It may have already started.');
         };
     } else {
-        alert('Please enter a valid name! valid len(<7)');
+        document.getElementById('error').textContent = 'Please enter a valid name! valid len(<7)'
     }
 }
 function startGameCountdown(seconds) {
@@ -219,6 +220,7 @@ function startGameCountdown(seconds) {
                 }
                 sendMessage(socket, messageStruct)
             } else {
+                document.getElementById('error').textContent = ''
                 setGame()
             }
         }

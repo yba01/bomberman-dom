@@ -6,6 +6,7 @@ function HomeComponent() {
 
     // Create a container for the form
     return createElement('div', { class: 'form-container' }, nameInput, submitButton);
+
 }
 
 

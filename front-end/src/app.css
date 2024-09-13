@@ -12,7 +12,6 @@ body {
   align-items: center;
   justify-content: center;
   margin: auto;
-  padding-top: 20%;
 }
 
 .break {
@@ -48,10 +47,8 @@ body {
 
 .game-map {
   background-image: url(./assets/img/map.png);
-  position: absolute;
   width: 570px;
-  left: 25%;
-  top: 150px;
+  margin-top: 150px;
   height: 390px;
   z-index: -1;
 
@@ -178,7 +175,7 @@ body {
 /* Submit button */
 #sendMessage {
   padding: 10px;
-  background-color: #4CAF50;
+  background-color: #ff4136;
   color: white;
   border: none;
   border-radius: 5px;
@@ -188,5 +185,73 @@ body {
 }
 
 #sendMessage:hover {
-  background-color: #45a049;
+  background-color: #ff725c;
+}
+
+
+.form-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+  border-radius: 5px;
+}
+
+#username {
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+}
+
+#username::placeholder {
+  color: #666;
+}
+
+#submit-name {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  background-color: #ff4136;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submit-name:hover {
+  background-color: #ff725c;
+}
+
+#username:focus, #submit-name:focus {
+  outline: 2px solid #4CAF50;
+}
+
+#error {
+  position: absolute;
+  top: calc(50% + 60px); /* Positioned below the form */
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #FFD700; /* Gold color for visibility */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Text shadow for readability */
+  background-color: rgba(255, 0, 0, 0.7); /* Semi-transparent red background */
+  padding: 10px 20px;
+  border-radius: 5px;
+  max-width: 80%;
+  text-align: center;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s ease;
+}
+
+#error:not(:empty) {
+  opacity: 1; /* Show when there's content */
 }

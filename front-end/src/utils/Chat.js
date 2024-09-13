@@ -4,9 +4,10 @@ export function chatHandle(socket) {
     const message = document.getElementById('MessageInput')
     let messageContent = message.value
     if (messageContent.split(' ').join('') == '' || messageContent.length > 40) {
-        alert('invalid message (must be shorter than 40 and not empty)')
+        document.getElementById('error').textContent = 'invalid message (must be shorter than 40 and not empty)'
         return
     }
+    document.getElementById('error').textContent = ''
     console.log(messageContent);
     
     let messageStruct = {
