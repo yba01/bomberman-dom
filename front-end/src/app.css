@@ -106,3 +106,65 @@ body {
   transition: 0.3s;
   display: none;
 }
+
+/* Waiting message and timer */
+#waitingMessage {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  color: #333333;
+}
+
+#WRtimer {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: #555555;
+}
+
+/* Chat area */
+#chatSpace {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Broadcast area */
+#BroadcastChat {
+  height: 150px;
+  overflow-y: auto;
+  background-color: #e9e9e9;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+}
+
+/* Message input */
+#MessageInput {
+  width: calc(100% - 10px);
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+/* Submit button */
+#sendMessage {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+#sendMessage:hover {
+  background-color: #45a049;
+}
