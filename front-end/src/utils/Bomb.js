@@ -114,7 +114,6 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
         down: { index: indexBomb + 19, pos: [bombY + 1, bombX], oneMore: indexBomb + 38 }
     }
 
-
     for (let direction in directions) {
         let brick = tiles[directions[direction].index];
         if (brick && !brick.classList.contains("unbreak")) {

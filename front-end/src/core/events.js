@@ -1,42 +1,32 @@
-
 export class EventSystem {
     constructor() {
         this.events = {};
     }
 
     // Method to register an event handler
-    on(event, selector, handler) {
-        
+    on(event, element, handler) {
         if (!this.events[event]) {
             this.events[event] = [];
-            document.addEventListener(event, (e) => this.dispatch(e));
         }
-        this.events[event].push({ selector, handler });
+        this.events[event].push({ element, handler });
+        element.addEventListener(event, handler); // Add event listener directly to the element
     }
 
-    // Method to dispatch events to the appropriate handlers
-    dispatch(event) {
-        const eventType = event.type;
-        const target = event.target;
-
-        if (this.events[eventType]) {
-            this.events[eventType].forEach(({ selector, handler }) => {
-                if (target.matches(selector)) {
-                    handler.call(target, event);
-                }
-            });
-        }
-    }
-
-    off(event, selector, handler) {
+    // Method to remove an event handler
+    off(event, element, handler) {
         if (!this.events[event]) return;
 
+        // Remove the event handler from the element
+        element.removeEventListener(event, handler);
+
+        // Filter out the event from the registered events list
         this.events[event] = this.events[event].filter(
-            (e) => e.selector !== selector || e.handler !== handler
+            (e) => e.element !== element || e.handler !== handler
         );
 
+        // Clean up if no more listeners for the event
         if (this.events[event].length === 0) {
-            document.removeEventListener(event, (e) => this.dispatch(e));
+            delete this.events[event];
         }
     }
 }

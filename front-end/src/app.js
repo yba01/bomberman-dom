@@ -11,4 +11,5 @@ export const router = new Router();
 
 router.registerRoute("/", update(HomeComponent(), document.querySelector('.chatRoom')))
 router.navigateTo("/")
-eventSystem.on('click', '#submit-name', RegisterPlayer);
+let submit = document.getElementById('submit-name')
+eventSystem.on('click', submit, RegisterPlayer);

@@ -8,15 +8,15 @@ export default function setGame() {
     document.querySelector(".game-map").style.display = "block"
     document.querySelector(".info").style.display = "block"
     let count = 10
-
-    eventSystem.on('keydown', '#root', (e) => {
+    let root = document.getElementById("root")
+    eventSystem.on('keydown', root, (e) => {
 
         if (count % 10 == 0) {
             movePlayer(e)
         }
         count++
     })
-    eventSystem.on('keyup', '#root', ({ key }) => {
+    eventSystem.on('keyup', root, ({ key }) => {
         count = 0
 
 

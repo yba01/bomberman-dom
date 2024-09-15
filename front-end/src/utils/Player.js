@@ -24,7 +24,8 @@ const RegisterPlayer = () => {
             socket.send(JSON.stringify({ username }));
             stateManager.setState('socket', { username, socket });
             update(WaitingRoomComponent(), document.querySelector('.chatRoom'))
-            eventSystem.on('click', '#sendMessage', () => { chatHandle(socket) })
+            let sendMsg = document.getElementById('sendMessage')
+            eventSystem.on('click',sendMsg, () => { chatHandle(socket) })
         };
 
         socket.onmessage = (event) => {
