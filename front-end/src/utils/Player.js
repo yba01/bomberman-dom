@@ -194,8 +194,8 @@ const RegisterPlayer = () => {
 
         };
 
-        socket.onerror = (error) => {
-            alert('Error: Unable to join the game. It may have already started.');
+        socket.onerror = () => {
+            document.getElementById('error').textContent = 'A Game Has Already started Please try Later'
         };
     } else {
         document.getElementById('error').textContent = 'Please enter a valid name! valid len(<7)'
