@@ -20,4 +20,5 @@ type Message struct {
 	Player       Player
 	DataMap      [][]int
 	PowerUpIndex [][2]int
+	Countdown int
 }

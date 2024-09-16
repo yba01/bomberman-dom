@@ -40,6 +40,11 @@ const RegisterPlayer = () => {
 
             }
 
+            if (data.MessageType === "getCountDown") {
+                clearTimeout(countdownTimer)
+                startGameCountdown(data.Countdown);
+            }
+
             if (data.MessageType == "playerCount") {
                 if (counter == 1) {
                     ActualUser = data
@@ -90,34 +95,34 @@ const RegisterPlayer = () => {
                     counter++
                 }
                 document.getElementById('waitingMessage').textContent = `Waiting for other players to join... (${data.PlayerCount}/4)`;
+
                 if (data.PlayerCount === 4 && !gameStarted) {
-                    document.getElementById('player1').style.display = 'flex'
-                    document.getElementById('player2').style.display = 'flex'
-                    document.getElementById('player3').style.display = 'flex'
-                    document.getElementById('player4').style.display = 'flex'
-                    clearTimeout(countdownTimer); // Stop the existing timer
-                    gameStarted = true
-                    startGameCountdown(2); // Start the final 10 seconds countdown
-                } else if ((data.PlayerCount >= 2 && data.PlayerCount < 4) && !gameStarted) {
-                    // Start the 20 seconds countdown, or skip to 10 seconds if 4 players join
-                    if (data.PlayerCount == 2) {
-                        document.getElementById('player1').style.display = 'flex'
-                        document.getElementById('player2').style.display = 'flex'
-                    } else {
-                        document.getElementById('player1').style.display = 'flex'
-                        document.getElementById('player2').style.display = 'flex'
-                        document.getElementById('player3').style.display = 'flex'
-                    }
                     clearTimeout(countdownTimer);
-                    startGameCountdown(10);
+                    gameStarted = true;
+                    startGameCountdown(10); // Final 10 seconds countdown
+                } else if (data.PlayerCount == 2 && !gameStarted) {
+                    clearTimeout(countdownTimer);
+                    startGameCountdown(10); // Start 20 seconds countdown
                 } else {
-                    if (gameStarted) {
-                        document.getElementById('win').style.display = "flex"
-                        socket.close()
-                        return
+                    // Handle single player left
+                    if (gameStarted && data.PlayerCount === 1) {
+                        document.getElementById('win').style.display = "flex";
+                        socket.close();
+                        return;
                     }
-                    clearTimeout(countdownTimer);
-                    document.getElementById('WRtimer').textContent = 'At least 2 players...';
+                    if (!gameStarted && data.PlayerCount == 1) {
+                        clearTimeout(countdownTimer);
+                        document.getElementById('WRtimer').textContent = 'At least 2 players...';
+                    }
+                    if (!gameStarted && data.PlayerCount == 3) {
+                        let messageStruct = {
+                            MessageType: "getCountDown",
+                        };
+                        sendMessage(socket, messageStruct)
+                    }
+                }
+                for (let i = 1; i <= data.PlayerCount; i++) {
+                    document.getElementById(`player${i}`).style.display = 'flex'
                 }
             }
 
@@ -179,7 +184,7 @@ const RegisterPlayer = () => {
             }
 
             if (data.MessageType === "lost") {
-                
+                console.log('data', data)
                 document.getElementById(data.Player.InGameName).style.display = "none"
                 if (data.PlayerCount === 1) {
                     document.getElementById('win').style.display = "flex"
@@ -198,35 +203,40 @@ const RegisterPlayer = () => {
 }
 function startGameCountdown(seconds) {
     const timerElement = document.getElementById('WRtimer');
-    let WaitMessage = 'Waiting...'
-    if (seconds == 10) {
-        WaitMessage = 'Game starts in'
-    }
+    let WaitMessage = seconds === 10 ? 'Game starts in' : 'Waiting...';
     timerElement.textContent = `${WaitMessage} ${seconds} seconds`;
 
     countdownTimer = setInterval(() => {
         seconds--;
         timerElement.textContent = `${WaitMessage} ${seconds} seconds`;
 
+        // Broadcast the current countdown state to all players
+        let messageStruct = {
+            MessageType: "countdownUpdate",
+            Countdown: seconds
+        };
+        sendMessage(socket, messageStruct);
+
         if (seconds <= 0) {
             clearInterval(countdownTimer);
             if (!gameStarted) {
-                startGameCountdown(10)
-                gameStarted = true
+                startGameCountdown(10);  // Fallback to a shorter countdown
+                gameStarted = true;
                 let messageStruct = {
                     MessageType: "gameStarted",
                     TheMessage: "",
                     PlayerCount: 0,
                     PlayerName: ""
-                }
-                sendMessage(socket, messageStruct)
+                };
+                sendMessage(socket, messageStruct);
             } else {
-                document.getElementById('error').textContent = ''
-                setGame()
+                document.getElementById('error').textContent = '';
+                setGame();
             }
         }
     }, 1000);
 }
+
 
 
 

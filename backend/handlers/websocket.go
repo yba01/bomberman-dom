@@ -14,6 +14,8 @@ var gameStarted = false
 
 var InitMap = GenerateMap(13, 19)
 
+var countDown int
+
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -88,9 +90,18 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 		if userMess.MessageType == "lost" {
 			fmt.Println("a user lost")
 			removePlayer(userMess.Player.Username)
+			fmt.Println(len(players))
 			userMess.PlayerCount = len(players)
 			broadcast(userMess)
 			break
+		} 
+		if userMess.MessageType == "countdownUpdate"{
+			countDown = userMess.Countdown
+		}
+
+		if userMess.MessageType == "getCountDown" {
+			userMess.Countdown = countDown
+			conn.WriteJSON(userMess)
 		}
 	}
 }
