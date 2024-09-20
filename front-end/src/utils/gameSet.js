@@ -37,3 +37,22 @@ export default function setGame() {
         }
     })
 }
+
+export function displayLooseImg(ActualUser) {
+    if (ActualUser.Player.InGameName == 'player1') {
+        console.log('ActualUser.Player.InGameName', ActualUser.Player.InGameName)
+        document.getElementById('loose').style.content = `url(./assets/img/meloose.jpg)`
+    }
+    if (ActualUser.Player.InGameName == 'player2') {
+        console.log('ActualUser.Player.InGameName', ActualUser.Player.InGameName)
+        document.getElementById('loose').style.content = `url(./assets/img/roloose.jpg)`
+    }
+    if (ActualUser.Player.InGameName == 'player3') {
+        console.log('ActualUser.Player.InGameName', ActualUser.Player.InGameName)
+        document.getElementById('loose').style.content = `url(./assets/img/beloose.jpg)`
+    }
+    if (ActualUser.Player.InGameName == 'player4') {
+        console.log('ActualUser.Player.InGameName', ActualUser.Player.InGameName)
+        document.getElementById('loose').style.content = `url(./assets/img/moloose.jpg)`
+    }
+}

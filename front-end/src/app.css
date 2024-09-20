@@ -2,7 +2,6 @@
 body {
   min-width: 1000px;
   background: url(./assets/img/crowd.jpg);
-  background-size: contain;
   background-size: cover;
   border-radius: 40%;
   color: white;
@@ -24,20 +23,18 @@ body {
 }
 
 #win {
-  content: url(./assets/img/victory.jpg);
   margin: auto;
-  width: 100%;
-  height: auto;
+  width: 70%;
+  height: 80%;
   display: none;
   position: absolute;
   z-index: 1;
 }
 
 #loose {
-  content: url(./assets/img/loose.jpg);
   margin: auto;
-  width: 100%;
-  height: auto;
+  width: 70%;
+  height: 80%;
   display: none;
   position: absolute;
   z-index: 1;
@@ -72,7 +69,7 @@ body {
 
 
 #player1 {
-  background: url('./assets/img/player1.png');
+  background: url('./assets/img/player1.jpg');
   width: 30px;
   height: 30px;
   position: absolute;
@@ -83,7 +80,7 @@ body {
 }
 
 #player2 {
-  background: url('./assets/img/player2.png');
+  background: url('./assets/img/player2.jpg');
   width: 30px;
   height: 30px;
   position: absolute;
