@@ -2,12 +2,12 @@ package handlers
 
 import (
 	"bombermandom/pkg/models"
-	"fmt"
 	"log"
 )
 
 func broadcast(mess models.Message) {
-	fmt.Println("broadcasting", mess)
+	models.Mu.Lock()
+	defer models.Mu.Unlock()
 	for player, conn := range players {
 		err := conn.WriteJSON(mess)
 		if err != nil {
@@ -18,7 +18,6 @@ func broadcast(mess models.Message) {
 }
 
 func removePlayer(player string) {
-	fmt.Println("removed:", player)
 	var mess models.Message
 	delete(players, player)
 	if len(players) <= 1 {

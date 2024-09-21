@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"bombermandom/pkg/models"
-	"fmt"
 	"math/rand"
 
 	"github.com/gorilla/websocket"
@@ -36,7 +35,6 @@ func randomValues() [][2]int {
 			pairs = append(pairs, [2]int{x, y})
 		}
 	}
-	fmt.Println(pairs)
 	return pairs
 }
 
@@ -73,7 +71,6 @@ func GenerateMap(rows, cols int) [][]int {
 			}
 		}
 	}
-	fmt.Println(gameMap)
 	return gameMap
 }
 

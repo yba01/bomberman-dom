@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"bombermandom/pkg/models"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -11,7 +10,6 @@ import (
 )
 
 var gameStarted = false
-
 var InitMap = GenerateMap(13, 19)
 
 var countDown int
@@ -48,8 +46,6 @@ func WebSocketHandle(w http.ResponseWriter, r *http.Request) {
 	}
 	players[player.Username] = conn
 
-	fmt.Println(players)
-	fmt.Println(len(players))
 	// broadcastPlayerCount()
 
 	go HandleConn(conn, player.Username)
@@ -76,11 +72,9 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 			broadcast(userMess)
 		}
 		if userMess.MessageType == "gameStarted" {
-			fmt.Println("game Started")
 			gameStarted = true
 		}
 		if userMess.MessageType == "playerMovement" {
-			fmt.Println("player Moved")
 			userMess.Player.InGameName = mess.Player.InGameName
 			broadcast(userMess)
 		}
@@ -88,14 +82,12 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 			broadcast(userMess)
 		}
 		if userMess.MessageType == "lost" {
-			fmt.Println("a user lost")
 			removePlayer(userMess.Player.Username)
-			fmt.Println(len(players))
 			userMess.PlayerCount = len(players)
 			broadcast(userMess)
 			break
-		} 
-		if userMess.MessageType == "countdownUpdate"{
+		}
+		if userMess.MessageType == "countdownUpdate" {
 			countDown = userMess.Countdown
 		}
 

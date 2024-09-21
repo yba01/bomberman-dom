@@ -106,21 +106,16 @@ const RegisterPlayer = () => {
                 } else {
                     // Handle single player left
                     if (gameStarted && data.PlayerCount === 1) {
-                        console.log('data.Player.InGameName', data.Player.InGameName)
                         if (ActualUser.Player.InGameName == 'player1') {
-                            console.log('ActualUser.Player.InGameName', ActualUser.Player.InGameName)
                             document.getElementById('win').style.content = `url(./assets/img/mess.jpeg)`
                         }
                         if (ActualUser.Player.InGameName == 'player2') {
-                            console.log('ActualUser.Player.InGameName', ActualUser.Player.InGameName)
                             document.getElementById('win').style.content = `url(./assets/img/ron.jpg)`
                         }
                         if (ActualUser.Player.InGameName == 'player3') {
-                            console.log('ActualUser.Player.InGameName', ActualUser.Player.InGameName)
                             document.getElementById('win').style.content = `url(./assets/img/benz.jpg)`
                         }
                         if (ActualUser.Player.InGameName == 'player4') {
-                            console.log('ActualUser.Player.InGameName', ActualUser.Player.InGameName)
                             document.getElementById('win').style.content = `url(./assets/img/modr.jpeg)`
                         }
                         document.getElementById('win').style.display = 'flex'
@@ -201,7 +196,6 @@ const RegisterPlayer = () => {
             }
 
             if (data.MessageType === "lost") {
-                console.log('data', data)
                 document.getElementById(data.Player.InGameName).style.display = "none"
             }
 

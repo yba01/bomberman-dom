@@ -198,7 +198,6 @@ function explodeBomb(bomb, indexBomb, tiles, bombY, bombX, playerIGName) {
             }
               break;
     }
-    console.log('first', BC1, BC2, BC3, BC4, BombOn1, BombOn2, BombOn3, BombOn4)
 
 }
 

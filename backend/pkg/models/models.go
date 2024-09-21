@@ -1,5 +1,7 @@
 package models
 
+import "sync"
+
 type Player struct {
 	MessageType string
 	Username    string
@@ -22,3 +24,5 @@ type Message struct {
 	PowerUpIndex [][2]int
 	Countdown int
 }
+
+var Mu sync.Mutex
