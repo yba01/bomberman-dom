@@ -252,11 +252,10 @@ function flameIt(key, player, oneMoreIndex, bombY, bombX) {
 function renderBonus(div) {
     if (div.classList.contains("bombing")) {
         // div.classList.remove("explode")
-        div.style.backgroundImage = "url('./assets/img/bomb.png')";
+        div.style.backgroundImage = `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><text x="50%" y="50%" font-size="20" text-anchor="middle" dominant-baseline="middle">⚽⚽</text></svg>')`
     }
     if (div.classList.contains("speed")) {
-        // div.classList.remove("explode")
-
+        // div.classList.remove("explode")4
         div.style.backgroundImage = `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"><text x="50%" y="50%" font-size="20" text-anchor="middle" dominant-baseline="middle">👟</text></svg>')`;
     }
     if (div.classList.contains("flame")) {
