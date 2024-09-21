@@ -96,6 +96,11 @@ const RegisterPlayer = () => {
                 }
                 document.getElementById('waitingMessage').textContent = `Waiting for other players to join... (${data.PlayerCount}/4)`;
 
+                if (!gameStarted) {
+                    for (let i = 1; i <= data.PlayerCount; i++) {
+                        document.getElementById(`player${i}`).style.display = 'flex'
+                    }
+                }
                 if (data.PlayerCount === 4 && !gameStarted) {
                     clearTimeout(countdownTimer);
                     gameStarted = true;
@@ -132,9 +137,6 @@ const RegisterPlayer = () => {
                         };
                         sendMessage(socket, messageStruct)
                     }
-                }
-                for (let i = 1; i <= data.PlayerCount; i++) {
-                    document.getElementById(`player${i}`).style.display = 'flex'
                 }
             }
 
