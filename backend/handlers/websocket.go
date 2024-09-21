@@ -72,6 +72,7 @@ func HandleConn(conn *websocket.Conn, playerName string) {
 			broadcast(userMess)
 		}
 		if userMess.MessageType == "gameStarted" {
+			InitMap = GenerateMap(13, 19)
 			gameStarted = true
 		}
 		if userMess.MessageType == "playerMovement" {
