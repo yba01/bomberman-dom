@@ -44,6 +44,15 @@ func WebSocketHandle(w http.ResponseWriter, r *http.Request) {
 		log.Println("Error reading player:", err)
 		return
 	}
+
+	_, exists := players[player.Username]
+	if exists {
+		player.MessageType = "ErrorName"
+		conn.WriteJSON(player)
+		conn.Close()
+		return
+	}
+
 	players[player.Username] = conn
 
 	// broadcastPlayerCount()

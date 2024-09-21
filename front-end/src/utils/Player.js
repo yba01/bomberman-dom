@@ -22,10 +22,6 @@ const RegisterPlayer = () => {
 
         socket.onopen = () => {
             socket.send(JSON.stringify({ username }));
-            stateManager.setState('socket', { username, socket });
-            update(WaitingRoomComponent(), document.querySelector('.chatRoom'))
-            let sendMsg = document.getElementById('sendMessage')
-            eventSystem.on('click',sendMsg, () => { chatHandle(socket) })
         };
 
         socket.onmessage = (event) => {
@@ -47,6 +43,10 @@ const RegisterPlayer = () => {
 
             if (data.MessageType == "playerCount") {
                 if (counter == 1) {
+                    stateManager.setState('socket', { username, socket });
+            update(WaitingRoomComponent(), document.querySelector('.chatRoom'))
+            let sendMsg = document.getElementById('sendMessage')
+            eventSystem.on('click',sendMsg, () => { chatHandle(socket) })
                     ActualUser = data
                     switch (ActualUser.Player.InGameName) {
                         case 'player1':
@@ -152,6 +152,10 @@ const RegisterPlayer = () => {
                 PlaceBomb(data)
             }
             
+            if (data.MessageType == 'ErrorName') {
+                document.getElementById('error').textContent = 'Name Already taken'
+            }
+
             if (data.MessageType == "powerUp") {
                 if (data.Player.SpeedUp) {
                     let speedY = speedUpIndex[0]

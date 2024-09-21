@@ -19,7 +19,6 @@ export default function setGame() {
     eventSystem.on('keyup', root, ({ key }) => {
         count = 0
 
-
         if (key == " ") {
             let actualPlayer = ActualUser.Player.InGameName
             let x = stateManager.getState(actualPlayer)[0].index_X// index x of user when the bomb is place
