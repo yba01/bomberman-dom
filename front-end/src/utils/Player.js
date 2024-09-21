@@ -98,7 +98,7 @@ const RegisterPlayer = () => {
 
                 if (!gameStarted) {
                     for (let i = 1; i <= data.PlayerCount; i++) {
-                        document.getElementById(`player${i}`).style.display = 'flex'
+                        document.getElementById(`player${i}`).style.display = 'block'
                     }
                 }
                 if (data.PlayerCount === 4 && !gameStarted) {

@@ -4,6 +4,7 @@ import { sendMessage } from "./messages.js";
 import { ActualUser, BombOn1Up, BombOn2Up, BombOn3Up, BombOn4Up, mapLayout, socket, tiles, username, ApplyFlame } from "./Player.js"
 
 let BombOn1, BombOn2, BombOn3, BombOn4 = false, PLayerHealth = 3
+
 export let BC1=0, BC2=0, BC3=0, BC4=0
 
 export function PlaceBomb(message) {
@@ -245,9 +246,6 @@ function flameIt(key, player, oneMoreIndex, bombY, bombX) {
         }
     }
 }
-
-
-
 
 function renderBonus(div) {
     if (div.classList.contains("bombing")) {
